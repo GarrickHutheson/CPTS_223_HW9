@@ -4,13 +4,14 @@ using std::string;
 class Job{
   public:
     void Ticks(string job_description, int procs, int ticks);
+    
     void setTicks(int ticks);
-    void decrementTicks();
     void incrementTicks();
+    void decrementTicks();
   
     void setProcs(int procs);
-    void decrementProcs();
     void incrementProcs();
+    void decrementProcs();
   
     void setId(int iname);
   
