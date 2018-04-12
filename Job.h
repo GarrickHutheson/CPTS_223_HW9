@@ -1,5 +1,7 @@
+#include <string>
+using std::string;
 
-class Job() {
+class Job{
   public:
     void Job::Ticks(string job_description, int procs, int ticks);
     void decrementTicks();

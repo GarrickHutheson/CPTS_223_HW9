@@ -1,6 +1,6 @@
 
-class Scheduler() {
-
+class Scheduler {
+public:
 /*
   Tick
   
