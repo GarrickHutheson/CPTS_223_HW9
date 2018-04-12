@@ -1,6 +1,9 @@
+#include <string>
+using std::string;
 
-class Scheduler() {
 
+class Scheduler {
+public:
 /*
   Tick
   

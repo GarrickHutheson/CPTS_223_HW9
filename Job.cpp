@@ -1,5 +1,7 @@
-  void Job::Ticks(job_description, procs, ticks ) {
-    job_Description = job_description;
+#include "Job.h"
+
+  void Job::Ticks(string job_Description, int procs, int ticks ) {
+    job_description = job_Description;
     n_procs = procs;
     n_ticks = ticks;
   }
@@ -19,7 +21,7 @@
     ++n_procs;
   }
   
-  void Job::setName(string iname) {
+  void Job::setId(int iname) {
     job_id=iname;
   }
   
