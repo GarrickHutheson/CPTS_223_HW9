@@ -1,3 +1,6 @@
+#include <string>
+using std::string;
+
 
 class Scheduler {
 public:
