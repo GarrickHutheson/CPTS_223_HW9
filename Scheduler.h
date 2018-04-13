@@ -35,7 +35,7 @@ void Tick();
   insertJob
   adds a job to the priority que
 */
-void insertJob(string desc="NULL", int procs=0, int ticks=0);
+void insertJob(int id, string desc="NULL", int procs=0, int ticks=0);
 
 /*
   findShortest
@@ -69,7 +69,7 @@ void decrementTimer();
 void releaseProcs(int procs);
 
 /**/
-void housekeeping1();
+void getAJob();
 /**/
 void fillQueue();
 /**/
@@ -84,6 +84,7 @@ private:
   int theFinalCountdown; //timer
   int avaliableProcs; //keeps track of free proccessors
   int allTheProcs;
+  int jobFileCounter;
   std::list<Job> running;
 };
 #endif

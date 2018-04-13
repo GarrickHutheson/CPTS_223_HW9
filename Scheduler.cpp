@@ -4,7 +4,11 @@
  */
 
 #include <iostream>
+#include <fstream>
 #include <list>
+#include <sstream>
+#include <istream>
+#include <string>
 #include "Scheduler.h"
 
 Scheduler::Scheduler() {
@@ -34,7 +38,7 @@ void Scheduler::Tick() {
 If  so,  it  inserts  the  job  into  a  “wait  queue”.  Otherwise,  a  job  submission 
 error is raised with an appropriate message. 
 */
-void Scheduler::insertJob(string desc, int procs, int ticks) {
+void Scheduler::insertJob(int id, string desc, int procs, int ticks) {
   if(((0 < procs) && (procs<= allTheProcs)) && (ticks > 0)) {
   procaQueue.push(Job(desc,procs,ticks));
   /*so it needs to take a
@@ -93,9 +97,22 @@ void Scheduler::releaseProcs(int procs) {
     avaliableProcs += procs;
 }
 
-/**/
+/*
+  pulls a job from input file
+  assigns job an unused integer id
+  calls InsertJob(job_id,job_description,n_procs,n_ticks)
+*/
 void Scheduler::getAJob() {
-
+  //creates oldMan class that outputs "Get a JAOB" to terminal.
+  std::string filePuller = "";
+  std::ifstream fin;
+  fin.open("Input.txt");
+  for (int i = 0; i <= jobFileCounter; i++) {
+    std::getline(fin, filePuller);
+  }
+  //parse file puller
+  jobFileCounter++;
+  insertJob(/*do shit here*/)
 }
 
 /*while there are enough free processors call runJob.
