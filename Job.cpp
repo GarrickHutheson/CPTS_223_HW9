@@ -1,27 +1,45 @@
 #include "Job.h"
 
-  void Job::Ticks(string job_Description, int procs, int ticks ) {
-    job_description = job_Description;
-    n_procs = procs;
-    n_ticks = ticks;
-  }
-  
-  void Job::decrementTicks() {
-    --n_ticks;
-  }
-  void Job::incrementTicks() {
-    ++n_ticks;
-  }
-  
-  void Job::decrementProcs() {
-    --n_procs;
-  }
-  
-  void Job::incrementProcs(){
-    ++n_procs;
-  }
-  
-  void Job::setId(int iname) {
-    job_id=iname;
-  }
-  
+Job::Job() {
+  job_description = "NULL";
+  n_procs = 0;
+  n_ticks = 0;
+  job_id = setID();
+}
+
+Job::Job(string desc = "NULL", int procs, int ticks) {
+  job_description = job_Description;
+  n_procs = procs;
+  n_ticks = ticks;
+  job_id = setID();
+}
+
+/* sets number of ticks to a desired value */
+void Job::setTicks(int ticks) { n_ticks = ticks; }
+
+/* increases number of ticks a job requires */
+void Job::incrementTicks() { ++n_ticks; }
+
+/* decreases number of ticks a job requires */
+void Job::decrementTicks() { --n_ticks; }
+
+/* sets number of ticks to a desired value */
+void Job::setTimer(int tiempo) { jobRunningTimer = tiempo; }
+
+/* increases number of ticks a job requires */
+void Job::incrementTimer() { ++jobRunningTimer; }
+
+/* decreases number of ticks a job requires */
+void Job::decrementTimer() { --jobRunningTimer; }
+
+/* sets number of processes a job requires */
+void Job::setProcs(int procs) { n_procs = procs; }
+
+/* increases number of processes a job requires */
+void Job::incrementProcs() { ++n_procs; }
+
+/* decreases number of processes a job requires */
+void Job::decrementProcs() { --n_procs; }
+
+/* sets a job's integer id */
+void Job::setId() { /*something fancy*/ }
