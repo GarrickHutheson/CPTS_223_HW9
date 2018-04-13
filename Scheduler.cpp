@@ -43,7 +43,7 @@ void Scheduler::insertJob(string desc, int procs, int ticks) {
   findShortest
   acceses the top(shortest) element in the priority queue  
 */
-int Scheduler::findShortest() {
+Job Scheduler::findShortest() {
   return procaQueue.top();
 }
 
@@ -51,14 +51,18 @@ int Scheduler::findShortest() {
   deleteShortest
   calls std priority queue pop
 */
-void Scheduler::deleteShortest() {
+Job Scheduler::deleteShortest() {
+  std::list<Job>::iterator iter = procaQueue.top();
   procaQueue.pop();
+  return *iter;
 }
 
 /*
   checkAvailiability
 */
-bool Scheduler::checkAvailiability() {}
+bool Scheduler::checkAvailiability() {
+  return (avaliableProcs >= (findShortest().whatIsProcs()));
+}
 
 /*
   runJob
@@ -66,7 +70,7 @@ bool Scheduler::checkAvailiability() {}
   removes job from top of queue
 */
 void Scheduler::runJob() {
-  deleteShortest();
+  
 }
 
 /*
@@ -89,19 +93,21 @@ void Scheduler::housekeeping1() {
 }
 
 /**/
-void Scheduler::housekeeping2() {
-
+void Scheduler::queueNotEmpty() {
+  if(checkAvailiability()) {
+    //do thing
+  }
 }
 
 /**/
-void Scheduler::housekeeping3() {
+void Scheduler::decrementEggTimers() {
   for (std::list<Job>::iterator iter = running.begin(); (iter != running.end()); iter++) {
     iter->decrementTimer();
   }
 }
 
 /**/
-void Scheduler::housekeeping4() {
+void Scheduler::deleteByTimer() {
   for (std::list<Job>::iterator iter = running.begin(); (iter != running.end()); iter++) {
     if(!(iter-> whatIsTimer())) {
       running.erase(iter);

@@ -18,9 +18,12 @@ class Job{
     void decrementTimer();
     int whatIsTimer();
 
+
     void setProcs(int procs);
     void incrementProcs();
     void decrementProcs();
+    int whatIsProcs();
+    
   
     void setId(int iname);
   

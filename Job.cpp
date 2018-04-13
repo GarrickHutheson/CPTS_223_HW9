@@ -44,5 +44,10 @@ void Job::incrementProcs() { ++n_procs; }
 /* decreases number of processes a job requires */
 void Job::decrementProcs() { --n_procs; }
 
+int Job::whatIsProcs() {
+  return n_procs;
+}
+
+
 /* sets a job's integer id */
 void Job::setId() { /*something fancy*/ }
