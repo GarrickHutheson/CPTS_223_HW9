@@ -1,9 +1,13 @@
+#ifndef __JOB_H__
+#define __JOB_H__
+
 #include <string>
 using std::string;
 
 class Job{
   public:
-    void Ticks(string job_description, int procs, int ticks);
+    Job();
+    Job(string desc,int procs,int ticks);
     
     void setTicks(int ticks);
     void incrementTicks();
@@ -21,3 +25,4 @@ class Job{
     int n_ticks;
     int job_id;
 };
+#endif

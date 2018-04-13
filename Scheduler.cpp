@@ -1,11 +1,12 @@
 /*
   Tick
-  
-  
+
+
   prints the job_id numbers of any job submitted during the tick
   prints the job_id of any jobs compleated during the tick
 */
 void Tick() {
+
 
 }
 
@@ -13,49 +14,37 @@ void Tick() {
   insertJob
   adds a job to the priority que
 */
-void insertJob() {
-
-}
+void insertJob() {}
 
 /*
   findShortest
+  acceses the top(shortest) element in the priority queue  
 */
 int findShortest() {
-
+  return procaQueue.top();
 }
 
 /*
   deleteShortest
 */
-bool deleteShortest() {
-
-}
+bool deleteShortest() {}
 
 /*
   checkAvailiability
 */
-bool checkAvailiability() {
-
-}
+bool checkAvailiability() {}
 
 /*
   runJob
 */
-void runJob() {
-
-}
+void runJob() {}
 
 /*
   decrementTimer
 */
-void decrementTimer() {
-
-}
+void decrementTimer() {}
 
 /*
   releaseProcs
 */
-void releaseProcs() {
-
-}
-
+void releaseProcs() {}

@@ -1,4 +1,8 @@
+#ifndef __SCHEDULER_H__
+#define __SCHEDULER_H__
+
 #include <string>
+#include <queue>
 using std::string;
 
 
@@ -21,6 +25,7 @@ void insertJob();
 
 /*
   findShortest
+  acceses the top(shortest) element in the priority queue
 */
 int findShortest();
 
@@ -49,4 +54,9 @@ void decrementTimer();
 */
 void releaseProcs();
 
+private:
+  std::priority_queue<Job> procaQueue;
+  int avaliableProcs;
+
 };
+#endif

@@ -1,10 +1,19 @@
 #include "Job.h"
 
-void Job::Ticks(string job_Description, int procs, int ticks) {
+Job::Job() {
+  job_description = "NULL";
+  n_procs = 0;
+  n_ticks = 0;
+  job_id = setID();
+}
+
+Job::Job(string desc = "NULL", int procs, int ticks) {
   job_description = job_Description;
   n_procs = procs;
   n_ticks = ticks;
+  job_id = setID();
 }
+
 /* sets number of ticks to a desired value */
 void Job::setTicks(int ticks) { n_ticks = ticks; }
 
@@ -24,4 +33,4 @@ void Job::incrementProcs() { ++n_procs; }
 void Job::decrementProcs() { --n_procs; }
 
 /* sets a job's integer id */
-void Job::setId(int iname) { job_id = iname; }
+void Job::setId() { /*something fancy*/ }
