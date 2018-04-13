@@ -1,3 +1,8 @@
+/*
+ * Cullen Williams & Garrick Hutcheson
+ * Scheduler.h
+ */
+
 #ifndef __SCHEDULER_H__
 #define __SCHEDULER_H__
 
@@ -61,12 +66,12 @@ void decrementTimer();
 /*
   releaseProcs
 */
-void releaseProcs();
+void releaseProcs(int procs);
 
 /**/
 void housekeeping1();
 /**/
-void queueNotEmpty();
+void fillQueue();
 /**/
 void decrementEggTimers();
 /**/
@@ -74,10 +79,11 @@ void deleteByTimer();
 
 
 
-//private:
+private:
   std::priority_queue<int,Job,std::greater<int> > procaQueue;
   int theFinalCountdown; //timer
   int avaliableProcs; //keeps track of free proccessors
+  int allTheProcs;
   std::list<Job> running;
 };
 #endif

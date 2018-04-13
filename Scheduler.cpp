@@ -30,13 +30,18 @@ void Scheduler::Tick() {
   insertJob
   adds a job to the priority queue
   calls std priority queue push  
+  The InsertJob() function first checks if (0 < n_procs ≤ p) and (n_ticks > 0). 
+If  so,  it  inserts  the  job  into  a  “wait  queue”.  Otherwise,  a  job  submission 
+error is raised with an appropriate message. 
 */
 void Scheduler::insertJob(string desc, int procs, int ticks) {
-  procaQueue.push(1/*TODO*/);
+  if(((0 < procs) && (procs<= allTheProcs)) && (ticks > 0)) {
+  procaQueue.push(Job(desc,procs,ticks));
   /*so it needs to take a
    job object but I don't think 
    i'm sorting these things correctly.
    I think what it needs is to get passed (jobID,Job)but idk */
+  }
 }
 
 /*
@@ -70,7 +75,7 @@ bool Scheduler::checkAvailiability() {
   removes job from top of queue
 */
 void Scheduler::runJob() {
-  
+  running.push_back(deleteShortest());
 }
 
 /*
@@ -83,19 +88,23 @@ void Scheduler::decrementTimer() {
 /*
   releaseProcs
 */
-void Scheduler::releaseProcs() {
-
+void Scheduler::releaseProcs(int procs) {
+  if(avaliableProcs + procs <= avaliableProcs)
+    avaliableProcs += procs;
 }
 
 /**/
-void Scheduler::housekeeping1() {
+void Scheduler::getAJob() {
 
 }
 
-/**/
-void Scheduler::queueNotEmpty() {
-  if(checkAvailiability()) {
-    //do thing
+/*while there are enough free processors call runJob.
+  runJob pushes the job to be run to the back of the
+   running list and deletes it from the queue
+*/
+void Scheduler::fillQueue() {
+  while(checkAvailiability()) {
+    runJob();
   }
 }
 
@@ -110,6 +119,7 @@ void Scheduler::decrementEggTimers() {
 void Scheduler::deleteByTimer() {
   for (std::list<Job>::iterator iter = running.begin(); (iter != running.end()); iter++) {
     if(!(iter-> whatIsTimer())) {
+      releaseProcs(iter->whatIsProcs());
       running.erase(iter);
     }
   }

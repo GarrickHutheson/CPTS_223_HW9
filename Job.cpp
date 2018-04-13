@@ -1,3 +1,8 @@
+/*
+ * Cullen Williams & Garrick Hutcheson
+ * Job.cpp
+ */
+
 #include "Job.h"
 
 Job::Job() {

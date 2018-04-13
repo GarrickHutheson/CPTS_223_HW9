@@ -1,3 +1,8 @@
+/*
+ * Cullen Williams & Garrick Hutcheson
+ * Job.h
+ */
+
 #ifndef __JOB_H__
 #define __JOB_H__
 
