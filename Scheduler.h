@@ -36,12 +36,12 @@ void insertJob(string desc="NULL", int procs=0, int ticks=0);
   findShortest
   acceses the top(shortest) element in the priority queue
 */
-int findShortest();
+Job findShortest();
 
 /*
   deleteShortest
 */
-void deleteShortest();
+Job deleteShortest();
 
 /*
   checkAvailiability
@@ -66,11 +66,11 @@ void releaseProcs();
 /**/
 void housekeeping1();
 /**/
-void housekeeping2();
+void queueNotEmpty();
 /**/
-void housekeeping3();
+void decrementEggTimers();
 /**/
-void housekeeping4();
+void deleteByTimer();
 
 
 
