@@ -10,6 +10,11 @@ using std::string;
 
 class Scheduler {
 public:
+
+Scheduler();
+Scheduler(int timer=10, int procs=8);
+
+
 /*
   Tick
   
@@ -23,7 +28,7 @@ void Tick();
   insertJob
   adds a job to the priority que
 */
-void insertJob();
+void insertJob(string desc="NULL", int procs=0, int ticks=0);
 
 /*
   findShortest
@@ -56,9 +61,9 @@ void decrementTimer();
 */
 void releaseProcs();
 
-private:
+//private:
   std::priority_queue<int,Job,std::greater<int> > procaQueue;
-
+  int theFinalCountdown;
   int avaliableProcs; //keeps track of free proccessors
 
 };
