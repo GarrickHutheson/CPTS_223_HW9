@@ -3,6 +3,8 @@
 
 #include <string>
 #include <queue>
+#include "Job.h"
+#include <functional>
 using std::string;
 
 
@@ -55,8 +57,9 @@ void decrementTimer();
 void releaseProcs();
 
 private:
-  std::priority_queue<Job> procaQueue;
-  int avaliableProcs;
+  std::priority_queue<int,Job,std::greater<int> > procaQueue;
+
+  int avaliableProcs; //keeps track of free proccessors
 
 };
 #endif
