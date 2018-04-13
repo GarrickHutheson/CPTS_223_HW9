@@ -3,6 +3,8 @@
  * Scheduler.cpp
  */
 
+#include <iostream>
+#include <list>
 #include "Scheduler.h"
 
 Scheduler::Scheduler() {
@@ -77,4 +79,32 @@ void Scheduler::decrementTimer() {
 /*
   releaseProcs
 */
-void Scheduler::releaseProcs() {}
+void Scheduler::releaseProcs() {
+
+}
+
+/**/
+void Scheduler::housekeeping1() {
+
+}
+
+/**/
+void Scheduler::housekeeping2() {
+
+}
+
+/**/
+void Scheduler::housekeeping3() {
+  for (std::list<Job>::iterator iter = running.begin(); (iter != running.end()); iter++) {
+    iter->decrementTimer();
+  }
+}
+
+/**/
+void Scheduler::housekeeping4() {
+  for (std::list<Job>::iterator iter = running.begin(); (iter != running.end()); iter++) {
+    if(!(iter-> whatIsTimer())) {
+      running.erase(iter);
+    }
+  }
+}

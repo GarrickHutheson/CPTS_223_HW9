@@ -16,7 +16,8 @@ class Job{
     void setTimer(int tiempo);
     void incrementTimer();
     void decrementTimer();
-  
+    int whatIsTimer();
+
     void setProcs(int procs);
     void incrementProcs();
     void decrementProcs();

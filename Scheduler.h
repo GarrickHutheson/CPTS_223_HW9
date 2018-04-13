@@ -1,8 +1,10 @@
 #ifndef __SCHEDULER_H__
 #define __SCHEDULER_H__
 
+#include <iostream>
 #include <string>
 #include <queue>
+#include <list>
 #include "Job.h"
 #include <functional>
 using std::string;
@@ -39,7 +41,7 @@ int findShortest();
 /*
   deleteShortest
 */
-bool deleteShortest();
+void deleteShortest();
 
 /*
   checkAvailiability
@@ -61,10 +63,21 @@ void decrementTimer();
 */
 void releaseProcs();
 
+/**/
+void housekeeping1();
+/**/
+void housekeeping2();
+/**/
+void housekeeping3();
+/**/
+void housekeeping4();
+
+
+
 //private:
   std::priority_queue<int,Job,std::greater<int> > procaQueue;
   int theFinalCountdown; //timer
   int avaliableProcs; //keeps track of free proccessors
-
+  std::list<Job> running;
 };
 #endif
