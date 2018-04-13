@@ -36,8 +36,12 @@ bool checkAvailiability() {}
 
 /*
   runJob
+  passes job to parallel computer( in theory)
+  removes job from top of queue
 */
-void runJob() {}
+void runJob() {
+  deleteShortest();
+}
 
 /*
   decrementTimer
