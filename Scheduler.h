@@ -63,7 +63,7 @@ void releaseProcs();
 
 //private:
   std::priority_queue<int,Job,std::greater<int> > procaQueue;
-  int theFinalCountdown;
+  int theFinalCountdown; //timer
   int avaliableProcs; //keeps track of free proccessors
 
 };

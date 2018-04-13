@@ -12,6 +12,10 @@ class Job{
     void setTicks(int ticks);
     void incrementTicks();
     void decrementTicks();
+
+    void setTimer(int tiempo);
+    void incrementTimer();
+    void decrementTimer();
   
     void setProcs(int procs);
     void incrementProcs();
@@ -21,6 +25,7 @@ class Job{
   
   private:
     string job_description;
+    int jobRunningTimer;
     int n_procs;
     int n_ticks;
     int job_id;
