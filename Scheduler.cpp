@@ -114,7 +114,7 @@ void Scheduler::decrementEggTimers() {
     iter->decrementTimer();
   }
 }
-
+//maybe combine ^v
 /**/
 void Scheduler::deleteByTimer() {
   for (std::list<Job>::iterator iter = running.begin(); (iter != running.end()); iter++) {
