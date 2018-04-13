@@ -79,7 +79,9 @@ void Scheduler::decrementTimer() {
 /*
   releaseProcs
 */
-void Scheduler::releaseProcs() {}
+void Scheduler::releaseProcs() {
+
+}
 
 /**/
 void Scheduler::housekeeping1() {
@@ -100,5 +102,9 @@ void Scheduler::housekeeping3() {
 
 /**/
 void Scheduler::housekeeping4() {
-
+  for (std::list<Job>::iterator iter = running.begin(); (iter != running.end()); iter++) {
+    if(!(iter-> whatIsTimer())) {
+      running.erase(iter);
+    }
+  }
 }

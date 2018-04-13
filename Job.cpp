@@ -32,6 +32,9 @@ void Job::incrementTimer() { ++jobRunningTimer; }
 /* decreases number of ticks a job requires */
 void Job::decrementTimer() { --jobRunningTimer; }
 
+/* returns timer value */
+int Job::whatIsTimer() { return jobRunningTimer; }
+
 /* sets number of processes a job requires */
 void Job::setProcs(int procs) { n_procs = procs; }
 
