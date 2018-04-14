@@ -12,14 +12,21 @@
 #include <string>
 
 Scheduler::Scheduler() {
-  theFinalCountdown = 10; // DEFAULTUNKNOWN
-  avaliableProcs = 8;     // DEFAULTUNKNOWN
-  jobFileCounter = 0;     // starts at the first line of a file
+  avaliableProcs = 8; // DEFAULTUNKNOWN
+  jobFileCounter = 0; // starts at the first line of a file
+  totalJobsToDo = 10;
 }
-Scheduler::Scheduler(int timer, int procs) {
-  theFinalCountdown = timer;
+Scheduler::Scheduler(int numJobs, int procs) {
   avaliableProcs = procs;
   jobFileCounter = 0;
+  totalJobsToDo = numJobs;
+}
+
+void Scheculer::Run() {
+  while (getTJobs()) {
+    Tick();
+    decrementTJobs();
+  }
 }
 /*
   Tick
@@ -132,23 +139,18 @@ void Scheduler::fillQueue() {
   }
 }
 
-/**/
-void Scheduler::decrementEggTimers() {
-  for (std::list<Job>::iterator iter = running.begin(); (iter != running.end());
-       iter++) {
-    iter->decrementTimer();
-  }
-}
-// maybe combine ^v
 /*prints the job_ids of any jobs compleated during the tick*/
 string Scheduler::deleteByTimer() {
   std::stringstream done;
   int syntactorator = 0;
   for (std::list<Job>::iterator iter = running.begin(); (iter != running.end());
        iter++) {
+
+    iter->decrementTimer();
     if (!(iter->getTimer())) {
       done << iter->getID() << ", ";
       releaseProcs(iter->getProcs());
+
       running.erase(iter);
       syntactorator++;
     }
@@ -158,9 +160,13 @@ string Scheduler::deleteByTimer() {
     if syntactorator = 1, adds " job was deleted." to stringstream
     if syntactorator > 1, adds " jobs were deleted." to stringstream
   */
-  (syntactorator) ? ((syntactorator - 1) ? (done << " jobs were deleted.")
-                                         : (done << " job was deleted."))
+  (syntactorator) ? ((syntactorator - 1) ? (done << " were deleted.")
+                                         : (done << " was deleted."))
                   : (done << "no jobs were deleted");
-  done << std::endl;
+  done << std::endl; // idk if this will work
   return done.str();
 }
+
+int Scheduler::getTjobs() { return totalJobsToDo; }
+
+void Scheduler::decrementTJobs() { totalJobsToDo--; }

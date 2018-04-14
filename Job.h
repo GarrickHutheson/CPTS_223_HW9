@@ -26,6 +26,8 @@ public:
   void setId(int iname);
   int getID();
 
+  string getDesc();
+
 private:
   string job_description;
   int jobRunningTimer;
