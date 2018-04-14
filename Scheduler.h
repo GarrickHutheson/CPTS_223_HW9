@@ -34,7 +34,7 @@ public:
     insertJob
     adds a job to the priority que
   */
-  void insertJob(int id, string desc = "NULL", int procs = 0, int ticks = 0);
+  void insertJob(int id, int procs = 0, int ticks = 0, string desc = "NULL");
 
   /*
     findShortest
@@ -82,7 +82,7 @@ public:
   void decrementTJobs();
 
 private:
-  std::priority_queue<int, Job, std::greater<int>> procaQueue;
+  std::priority_queue<int, Job, std::greater<int> > procaQueue;
   int theFinalCountdown; // timer
   int avaliableProcs;    // keeps track of free proccessors
   int allTheProcs;
