@@ -1,4 +1,4 @@
-#include <ifstream>
+#include <istream>
 #include <iostream>
 
 int main() {
