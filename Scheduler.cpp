@@ -47,7 +47,7 @@ void waitForUserInput() {
   prints the job_id of any jobs compleated during the tick
 */
 void Scheduler::Tick() {
-
+  waitForUserInput();
   deleteByTimer();
 }
 
@@ -161,16 +161,9 @@ string Scheduler::deleteByTimer() {
        iter++) {
 
     iter->decrementTimer();
-<<<<<<< HEAD
-    if (!(iter->whatIsTimer())) {
-      done << iter->getDesc() << ", Processors: "<< iter->getProcs() << ", Ticks: " << iter->getTicks() <<"\n";
-      releaseProcs(iter->whatIsProcs());
-=======
     if (!(iter->getTimer())) {
-      done << iter->getID() << ", ";
+      done << iter->getDesc() << ", Processors: "<< iter->getProcs() << ", Ticks: " << iter->getTicks() <<"\n";
       releaseProcs(iter->getProcs());
-
->>>>>>> 32622a856f68b57981dc668bf40a947bd241393c
       running.erase(iter);
       syntactorator++;
     }
@@ -187,6 +180,6 @@ string Scheduler::deleteByTimer() {
   return done.str();
 }
 
-int Scheduler::getTjobs() { return totalJobsToDo; }
+int Scheduler::getTJobs() { return totalJobsToDo; }
 
 void Scheduler::decrementTJobs() { totalJobsToDo--; }
