@@ -75,7 +75,7 @@ Job Scheduler::deleteShortest() {
   checkAvailiability
 */
 bool Scheduler::checkAvailiability() {
-  return (avaliableProcs >= (findShortest().whatIsProcs()));
+  return (avaliableProcs >= (findShortest().getProcs()));
 }
 
 /*
@@ -95,9 +95,12 @@ void Scheduler::decrementTimer() { theFinalCountdown--; }
   adds procs back to pool checks to
 */
 void Scheduler::releaseProcs(int procs) {
-  (avaliableProcs + procs <= avaliableProcs)
-      ? (avaliableProcs += procs)
-      : (cout << "TOO MANY PROCESSORS!" << std::endl);
+  if(avaliableProcs + procs <= avaliableProcs){
+       (avaliableProcs += procs);
+    }
+  else{
+   std::cout << "TOO MANY PROCESSORS!" << std::endl;
+  }
 }
 
 /*
@@ -142,12 +145,14 @@ string Scheduler::deleteByTimer() {
   int syntactorator = 0;
   for (std::list<Job>::iterator iter = running.begin(); (iter != running.end());
        iter++) {
+
     iter->decrementTimer();
-    if (!(iter->whatIsTimer())) {
-      done << iter->getDesc() << ", ";
-      releaseProcs(iter->whatIsProcs());
+    if (!(iter->getTimer())) {
+      done << iter->getID() << ", ";
+      releaseProcs(iter->getProcs());
+
       running.erase(iter);
-      syntactorator++
+      syntactorator++;
     }
   }
   /*

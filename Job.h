@@ -18,13 +18,13 @@ public:
 
   void setTimer(int tiempo);
   void decrementTimer();
-  int whatIsTimer();
+  int getTimer();
 
   void setProcs(int procs);
-  int whatIsProcs();
+  int getProcs();
 
   void setId(int iname);
-  int whatIsID();
+  int getID();
 
   string getDesc();
 
