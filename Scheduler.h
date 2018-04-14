@@ -47,6 +47,8 @@ public:
   */
   Job deleteShortest();
 
+  void waitForUserInput();
+
   /*
     checkAvailiability
   */

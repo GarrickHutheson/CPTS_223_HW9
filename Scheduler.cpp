@@ -22,20 +22,34 @@ Scheduler::Scheduler(int numJobs, int procs) {
   totalJobsToDo = numJobs;
 }
 
+//runs jobs from file w/o user input
 void Scheculer::Run() {
   while (getTJobs()) {
     Tick();
     decrementTJobs();
   }
 }
+
+void waitForUserInput() {
+  string jobdesk="";
+  int numprocs=0;
+  int numticks=0;
+  std::cin >> jobdesk;
+  std::cin >> numprocs;
+  std::cin >> numticks;
+  if(numprocs !=0)
+  int id = jobFileCounter;
+}
+
 /*
   Tick
-
-
   prints the job_id numbers of any job submitted during the tick
   prints the job_id of any jobs compleated during the tick
 */
-void Scheduler::Tick() {}
+void Scheduler::Tick() {
+
+  deleteByTimer();
+}
 
 /*
   insertJob
@@ -148,7 +162,7 @@ string Scheduler::deleteByTimer() {
 
     iter->decrementTimer();
     if (!(iter->getTimer())) {
-      done << iter->getID() << ", ";
+      done << iter->getDesc() << ", Processors: "<< iter->getProcs() << ", Ticks: " << iter->getTicks() <<"\n";
       releaseProcs(iter->getProcs());
 
       running.erase(iter);
