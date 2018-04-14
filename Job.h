@@ -9,34 +9,32 @@
 #include <string>
 using std::string;
 
-class Job{
-  public:
-    Job();
-    Job(string desc,int procs,int ticks);
-    
-    void setTicks(int ticks);
-    void incrementTicks();
-    void decrementTicks();
+class Job {
+public:
+  Job(int id, string desc, int procs, int ticks);
 
-    void setTimer(int tiempo);
-    void incrementTimer();
-    void decrementTimer();
-    int whatIsTimer();
+  void setTicks(int ticks);
+  void incrementTicks();
+  void decrementTicks();
 
+  void setTimer(int tiempo);
+  void incrementTimer();
+  void decrementTimer();
+  int whatIsTimer();
 
-    void setProcs(int procs);
-    void incrementProcs();
-    void decrementProcs();
-    int whatIsProcs();
-    
-  
-    void setId(int iname);
-  
-  private:
-    string job_description;
-    int jobRunningTimer;
-    int n_procs;
-    int n_ticks;
-    int job_id;
+  void setProcs(int procs);
+  void incrementProcs();
+  void decrementProcs();
+  int whatIsProcs();
+
+  void setId(int iname);
+  int whatIsID();
+
+private:
+  string job_description;
+  int jobRunningTimer;
+  int n_procs;
+  int n_ticks;
+  int job_id;
 };
 #endif

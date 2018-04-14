@@ -5,18 +5,11 @@
 
 #include "Job.h"
 
-Job::Job() {
-  job_description = "NULL";
-  n_procs = 0;
-  n_ticks = 0;
-  job_id = setID();
-}
-
-Job::Job(string desc = "NULL", int procs, int ticks) {
-  job_description = job_Description;
+Job::Job(int id, string desc = "NULL", int procs, int ticks) {
+  job_description = desc;
   n_procs = procs;
   n_ticks = ticks;
-  job_id = setID();
+  job_id = id;
 }
 
 /* sets number of ticks to a desired value */
@@ -49,10 +42,6 @@ void Job::incrementProcs() { ++n_procs; }
 /* decreases number of processes a job requires */
 void Job::decrementProcs() { --n_procs; }
 
-int Job::whatIsProcs() {
-  return n_procs;
-}
+int Job::whatIsProcs() { return n_procs; }
 
-
-/* sets a job's integer id */
-void Job::setId() { /*something fancy*/ }
+int Job::whatIsID() { return job_id; }
