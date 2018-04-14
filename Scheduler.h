@@ -17,7 +17,9 @@ using std::string;
 class Scheduler {
 public:
   Scheduler();
-  Scheduler(int timer = 10, int procs = 8);
+  Scheduler(int numJobs, int procs = 8);
+
+  void Run();
 
   /*
     Tick
@@ -74,12 +76,16 @@ public:
   /**/
   string deleteByTimer();
 
+  int getTjobs();
+  void decrementTJobs();
+
 private:
   std::priority_queue<int, Job, std::greater<int>> procaQueue;
   int theFinalCountdown; // timer
   int avaliableProcs;    // keeps track of free proccessors
   int allTheProcs;
   int jobFileCounter;
+  int totalJobsToDo;
   std::list<Job> running;
 };
 #endif

@@ -30,6 +30,8 @@ public:
   void setId(int iname);
   int whatIsID();
 
+  string getDesc();
+
 private:
   string job_description;
   int jobRunningTimer;
