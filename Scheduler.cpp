@@ -3,21 +3,23 @@
  * Scheduler.cpp
  */
 
-#include <iostream>
+#include "Scheduler.h"
 #include <fstream>
+#include <iostream>
+#include <istream>
 #include <list>
 #include <sstream>
-#include <istream>
 #include <string>
-#include "Scheduler.h"
 
 Scheduler::Scheduler() {
-  theFinalCountdown = 10; //DEFAULTUNKNOWN
-  avaliableProcs = 8;//DEFAULTUNKNOWN
+  theFinalCountdown = 10; // DEFAULTUNKNOWN
+  avaliableProcs = 8;     // DEFAULTUNKNOWN
+  jobFileCounter = 0;     // starts at the first line of a file
 }
 Scheduler::Scheduler(int timer, int procs) {
   theFinalCountdown = timer;
   avaliableProcs = procs;
+  jobFileCounter = 0;
 }
 /*
   Tick
@@ -26,35 +28,31 @@ Scheduler::Scheduler(int timer, int procs) {
   prints the job_id numbers of any job submitted during the tick
   prints the job_id of any jobs compleated during the tick
 */
-void Scheduler::Tick() {
-
-}
+void Scheduler::Tick() {}
 
 /*
   insertJob
   adds a job to the priority queue
-  calls std priority queue push  
-  The InsertJob() function first checks if (0 < n_procs ≤ p) and (n_ticks > 0). 
-If  so,  it  inserts  the  job  into  a  “wait  queue”.  Otherwise,  a  job  submission 
-error is raised with an appropriate message. 
+  calls std priority queue push
+  The InsertJob() function first checks if (0 < n_procs ≤ p) and (n_ticks > 0).
+If  so,  it  inserts  the  job  into  a  “wait  queue”.  Otherwise,  a  job
+submission error is raised with an appropriate message.
 */
 void Scheduler::insertJob(int id, string desc, int procs, int ticks) {
-  if(((0 < procs) && (procs<= allTheProcs)) && (ticks > 0)) {
-  procaQueue.push(Job(desc,procs,ticks));
-  /*so it needs to take a
-   job object but I don't think 
-   i'm sorting these things correctly.
-   I think what it needs is to get passed (jobID,Job)but idk */
+  if (((0 < procs) && (procs <= allTheProcs)) && (ticks > 0)) {
+    procaQueue.push(Job(id, desc, procs, ticks));
+    /*so it needs to take a
+     job object but I don't think
+     i'm sorting these things correctly.
+     I think what it needs is to get passed (jobID,Job)but idk */
   }
 }
 
 /*
   findShortest
-  acceses the top(shortest) element in the priority queue  
+  acceses the top(shortest) element in the priority queue
 */
-Job Scheduler::findShortest() {
-  return procaQueue.top();
-}
+Job Scheduler::findShortest() { return procaQueue.top(); }
 
 /*
   deleteShortest
@@ -78,23 +76,21 @@ bool Scheduler::checkAvailiability() {
   passes job to parallel computer( in theory)
   removes job from top of queue
 */
-void Scheduler::runJob() {
-  running.push_back(deleteShortest());
-}
+void Scheduler::runJob() { running.push_back(deleteShortest()); }
 
 /*
   decrementTimer
 */
-void Scheduler::decrementTimer() {
-  theFinalCountdown--;
-}
+void Scheduler::decrementTimer() { theFinalCountdown--; }
 
 /*
   releaseProcs
+  adds procs back to pool checks to
 */
 void Scheduler::releaseProcs(int procs) {
-  if(avaliableProcs + procs <= avaliableProcs)
-    avaliableProcs += procs;
+  (avaliableProcs + procs <= avaliableProcs)
+      ? (avaliableProcs += procs)
+      : (cout << "TOO MANY PROCESSORS!" << std::endl);
 }
 
 /*
@@ -103,16 +99,24 @@ void Scheduler::releaseProcs(int procs) {
   calls InsertJob(job_id,job_description,n_procs,n_ticks)
 */
 void Scheduler::getAJob() {
-  //creates oldMan class that outputs "Get a JAOB" to terminal.
+  // creates oldMan class that outputs "Get a JAOB" to terminal.
   std::string filePuller = "";
   std::ifstream fin;
   fin.open("Input.txt");
   for (int i = 0; i <= jobFileCounter; i++) {
     std::getline(fin, filePuller);
   }
-  //parse file puller
   jobFileCounter++;
-  insertJob(/*do shit here*/)
+
+  // parse file puller
+  string desc = ""; // TODO
+  int procs = 0;    // TODO
+  int ticks = 0;    // TODO
+
+  // Assign a int id
+  int id = jobFileCounter; // works but maybe better?
+
+  insertJob(id, desc, procs, ticks);
 }
 
 /*while there are enough free processors call runJob.
@@ -120,24 +124,40 @@ void Scheduler::getAJob() {
    running list and deletes it from the queue
 */
 void Scheduler::fillQueue() {
-  while(checkAvailiability()) {
+  while (checkAvailiability()) {
     runJob();
   }
 }
 
 /**/
 void Scheduler::decrementEggTimers() {
-  for (std::list<Job>::iterator iter = running.begin(); (iter != running.end()); iter++) {
+  for (std::list<Job>::iterator iter = running.begin(); (iter != running.end());
+       iter++) {
     iter->decrementTimer();
   }
 }
-//maybe combine ^v
-/**/
-void Scheduler::deleteByTimer() {
-  for (std::list<Job>::iterator iter = running.begin(); (iter != running.end()); iter++) {
-    if(!(iter-> whatIsTimer())) {
+// maybe combine ^v
+/*prints the job_ids of any jobs compleated during the tick*/
+string Scheduler::deleteByTimer() {
+  std::stringstream done;
+  int syntactorator = 0;
+  for (std::list<Job>::iterator iter = running.begin(); (iter != running.end());
+       iter++) {
+    if (!(iter->whatIsTimer())) {
+      done << iter->whatIsID() << ", ";
       releaseProcs(iter->whatIsProcs());
       running.erase(iter);
+      syntactorator++
     }
   }
+  /*
+    if syntactorator = 0, adds " no jobs were deleted" to stringstream
+    if syntactorator = 1, adds " job was deleted." to stringstream
+    if syntactorator > 1, adds " jobs were deleted." to stringstream
+  */
+  (syntactorator) ? ((syntactorator - 1) ? (done << " jobs were deleted.")
+                                         : (done << " job was deleted."))
+                  : (done << "no jobs were deleted");
+  done << std::endl;
+  return done.str();
 }
