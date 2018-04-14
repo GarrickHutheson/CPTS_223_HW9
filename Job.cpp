@@ -31,3 +31,7 @@ void Job::setProcs(int procs) { n_procs = procs; }
 int Job::getProcs() { return n_procs; }
 
 int Job::getID() { return job_id; }
+
+string Job::getDesc() {
+  return job_description;
+}
