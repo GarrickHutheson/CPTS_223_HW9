@@ -161,16 +161,10 @@ string Scheduler::deleteByTimer() {
        iter++) {
 
     iter->decrementTimer();
-<<<<<<< HEAD
-    if (!(iter->whatIsTimer())) {
-      done << iter->getDesc() << ", Processors: "<< iter->getProcs() << ", Ticks: " << iter->getTicks() <<"\n";
-      releaseProcs(iter->whatIsProcs());
-=======
     if (!(iter->getTimer())) {
-      done << iter->getID() << ", ";
+      done << iter->getDesc() << ", Processors: "<< iter->getProcs() << ", Ticks: " << iter->getTicks() <<"\n";
       releaseProcs(iter->getProcs());
 
->>>>>>> 32622a856f68b57981dc668bf40a947bd241393c
       running.erase(iter);
       syntactorator++;
     }
