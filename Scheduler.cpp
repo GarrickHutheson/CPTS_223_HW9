@@ -23,8 +23,8 @@ Scheduler::Scheduler(int numJobs, int procs) {
 }
 
 //runs jobs from file w/o user input
-void Scheculer::Run() {
-  while (getTJobs()) {
+void Scheduler::Run() {
+  while (getTjobs()) {
     Tick();
     decrementTJobs();
   }
@@ -59,9 +59,9 @@ void Scheduler::Tick() {
 If  so,  it  inserts  the  job  into  a  “wait  queue”.  Otherwise,  a  job
 submission error is raised with an appropriate message.
 */
-void Scheduler::insertJob(int id, string desc, int procs, int ticks) {
+void Scheduler::insertJob(int id, int procs, int ticks, string desc) {
   if (((0 < procs) && (procs <= allTheProcs)) && (ticks > 0)) {
-    procaQueue.push(Job(id, desc, procs, ticks));
+    procaQueue.push(Job(id, procs, ticks, desc));
     /*so it needs to take a
      job object but I don't think
      i'm sorting these things correctly.
@@ -140,7 +140,7 @@ void Scheduler::getAJob() {
   // Assign a int id
   int id = jobFileCounter; // works but maybe better?
 
-  insertJob(id, desc, procs, ticks);
+  insertJob(id, procs, ticks, desc);
 }
 
 /*while there are enough free processors call runJob.

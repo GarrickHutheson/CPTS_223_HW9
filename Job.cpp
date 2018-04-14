@@ -5,7 +5,7 @@
 
 #include "Job.h"
 
-Job::Job(int id, string desc = "NULL", int procs, int ticks) {
+Job::Job(int id, int procs, int ticks, string desc) {
   job_description = desc;
   n_procs = procs;
   n_ticks = ticks;
