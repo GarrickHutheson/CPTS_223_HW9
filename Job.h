@@ -14,17 +14,13 @@ public:
   Job(int id, string desc, int procs, int ticks);
 
   void setTicks(int ticks);
-  void incrementTicks();
-  void decrementTicks();
+  int getTicks();
 
   void setTimer(int tiempo);
-  void incrementTimer();
   void decrementTimer();
   int whatIsTimer();
 
   void setProcs(int procs);
-  void incrementProcs();
-  void decrementProcs();
   int whatIsProcs();
 
   void setId(int iname);
