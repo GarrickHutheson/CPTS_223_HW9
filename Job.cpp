@@ -43,6 +43,6 @@ bool operator > (const Job &lhs, const Job &rhs)
 
 std::ostream & operator <<(std::ostream &out, const Job &j)
 {
-  out << j.getDesc() << ", Processors: " << j.getProcs() << ", Ticks: " << j.getTicks();
+  out << j.getDesc() << "[Processors: " << j.getProcs() << ", Ticks: " << j.getTicks()<<"]";
   return out;
 }

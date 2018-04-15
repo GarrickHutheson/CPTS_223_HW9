@@ -11,7 +11,6 @@ Scheduler::Scheduler() {
   allTheProcs = 13;
   avaliableProcs = allTheProcs;
   totalJobs = 0; // starts at the first line of a file
-  totalJobsToDo = 100;
   fin.open("Input.txt");
   exitScheduler = false;
 }
@@ -19,7 +18,6 @@ Scheduler::Scheduler(int numJobs, int procs) {
   avaliableProcs = procs;
   allTheProcs = procs;
   totalJobs = 0;
-  totalJobsToDo = numJobs;
   fin.open("Input.txt");
   exitScheduler = false;
 }
@@ -32,7 +30,6 @@ void Scheduler::Run() {
       std::cout << "exiting" <<std::endl;
       return;
       }
-    decrementTJobs();
   } while (!(procaQueue.top().getDesc()=="exit") || !running.empty());
 }
 
@@ -56,15 +53,12 @@ void Scheduler::waitForUserInput() {
 */
 void Scheduler::Tick() {
  // waitForUserInput();
+ std::cout<<"\nTICK\n";
  if (!fin.eof())
  {
-<<<<<<< HEAD
-  getAJobFromTextFile();
+  exitScheduler = getAJobFromTextFile();
  } else {
    insertJob(-1,0,0,"exit");
-=======
-  exitScheduler = getAJobFromTextFile();
->>>>>>> 467d34de9d841ef5abe7ed585920b10abb6eb558
  }
  if(!procaQueue.empty() || !exitScheduler)
  {
@@ -88,10 +82,9 @@ void Scheduler::insertJob(int id, int procs, int ticks, string desc) {
   if ((0 <= procs) && (0 <= ticks)) {
     Job toPriorityQueue = Job(id, procs, ticks, desc);
     procaQueue.push(toPriorityQueue);
-   std::cout << toPriorityQueue << " inserted to priority Queue" << std::endl;
+    if(id!=-1)
+      std::cout << toPriorityQueue << " inserted to priority Queue" << std::endl;
 
-  } else {
-    std::cout << "UNSUCCESSFULL PROBE\n";
   }
 }
 
@@ -125,7 +118,7 @@ bool Scheduler::checkAvailiability(int procs) {
 */
 void Scheduler::scheduleJob() {
   int procs = procaQueue.top().getProcs();
-  if(checkAvailiability(procs))
+  if(checkAvailiability(procs)&&(procaQueue.top().getID()!=-1))
   {
     avaliableProcs-= procs;
     Job toRunning = deleteShortest();
@@ -162,9 +155,7 @@ bool Scheduler::getAJobFromTextFile() {
   {
     desc[i] = tolower(desc[i]);
   }
-  if(desc.find("exit") == string::npos)
-  {
-    std::cout<< "here" << std::endl;
+  if(desc.find("exit") == string::npos) {
     fin >> procs;
     fin >> ticks;
     fin.ignore(1000, '\n');
@@ -179,22 +170,23 @@ bool Scheduler::getAJobFromTextFile() {
 
 /*prints the job_ids of any jobs compleated during the tick*/
 void Scheduler::deleteByTimer() {
-  std::stringstream done;
   int syntactorator = 0;
     for (std::list<Job>::iterator iter = running.begin(); iter != running.end();iter++) {
       iter->decrementTimer();    
       if ((iter->getTimer() == 0)) {
         std::list<Job>::iterator deleteIter = iter; //don't erase loop guard
-        std::cout << *iter <<" was deleted" <<std::endl;
+        std::cout << *iter <<", ";
         releaseProcs(iter->getProcs());
         iter--; //step off to be erased node
         running.erase(deleteIter); //erase node
+        syntactorator++;
       }
     }
+    extraSyntax(syntactorator);
 }
 
-
-int Scheduler::getTJobs() { return totalJobsToDo; }
-
-void Scheduler::decrementTJobs() { totalJobsToDo--; }
-
+string Scheduler::extraSyntax(int syntactor) {
+  return ((syntactor) ? ((syntactor - 1) ? ("were deleted.\n")
+                                                  : ("was deleted.\n"))
+                          : ("No jobs were deleted\n"));
+}

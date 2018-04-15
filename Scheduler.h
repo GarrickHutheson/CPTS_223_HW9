@@ -74,16 +74,13 @@ public:
   void decrementEggTimers();
   /**/
   void deleteByTimer();
-
-  int getTJobs();
-  void decrementTJobs();
+  string extraSyntax(int syntactor);
 
 private:
   std::priority_queue<Job, std::vector<Job>, std::greater<Job> > procaQueue;
   int avaliableProcs;    // keeps track of free proccessors
   int allTheProcs;
   int totalJobs; //keeps track of the total number of jobs for independent naming
-  int totalJobsToDo;
   std::list<Job> running;
   std::ifstream fin;
   bool exitScheduler;
