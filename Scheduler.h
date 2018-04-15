@@ -9,6 +9,8 @@
 #include "Job.h"
 #include <functional>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <list>
 #include <queue>
 #include <string>
@@ -60,11 +62,6 @@ public:
   void runJob();
 
   /*
-    decrementTimer
-  */
-  void decrementTimer();
-
-  /*
     releaseProcs
   */
   void releaseProcs(int procs);
@@ -88,5 +85,6 @@ private:
   int totalJobs; //keeps track of the total number of jobs for independent naming
   int totalJobsToDo;
   std::list<Job> running;
-}; 
+  std::ifstream fin;
+};
 #endif
