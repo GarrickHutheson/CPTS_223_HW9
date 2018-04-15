@@ -50,7 +50,7 @@ void Scheduler::waitForUserInput() {
 */
 void Scheduler::Tick() {
  // waitForUserInput();
-  fillQueue();
+  getAJob();
   runJob();
   std::cout << deleteByTimer();
 }
@@ -106,10 +106,6 @@ bool Scheduler::checkAvailiability(int procs) {
 */
 void Scheduler::runJob() { running.push_back(deleteShortest()); }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 7f8202c2d52f3791607a417937f9e579d4059b95
 /*
   releaseProcs
   adds procs back to pool checks to
@@ -133,16 +129,8 @@ void Scheduler::getAJob() {
   int procs = 0;    // TODO
   int ticks = 0;    // TODO
   std::string filePuller = "";
-<<<<<<< HEAD
-  std::ifstream fin;
-  fin.open("Input.txt");
-  for (int i = 0; i <= totalJobs; i++) {
-    std::getline(fin, filePuller);
-  }
-=======
   std::getline(fin, filePuller);
   std::stringstream parseLine(filePuller);
->>>>>>> 7f8202c2d52f3791607a417937f9e579d4059b95
 
   // parse file puller
 
@@ -170,18 +158,18 @@ void Scheduler::fillQueue() {
 string Scheduler::deleteByTimer() {
   std::stringstream done;
   int syntactorator = 0;
-  if(running.begin()==running.end()){
-    }
     for (std::list<Job>::iterator iter = running.begin(); (iter != running.end());iter++) {
       iter->decrementTimer();
       if ((iter->getTimer())) {
+      std::cout <<"this too shall come to pass"<<std::endl;
+        
         done << iter->getDesc() << ", Processors: "<< iter->getProcs() << ", Ticks: " << iter->getTicks() <<"\n";
         releaseProcs(iter->getProcs());
        running.erase(iter);
         syntactorator++;
       }
       std::cout <<"this ever happens"<<std::endl;
-  }
+    }
   /*
     if syntactorator = 0, adds " no jobs were deleted" to stringstream
     if syntactorator = 1, adds " job was deleted." to stringstream
