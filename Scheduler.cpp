@@ -106,10 +106,6 @@ bool Scheduler::checkAvailiability(int procs) {
 */
 void Scheduler::runJob() { running.push_back(deleteShortest()); }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 7f8202c2d52f3791607a417937f9e579d4059b95
 /*
   releaseProcs
   adds procs back to pool checks to
@@ -133,16 +129,8 @@ void Scheduler::getAJob() {
   int procs = 0;    // TODO
   int ticks = 0;    // TODO
   std::string filePuller = "";
-<<<<<<< HEAD
-  std::ifstream fin;
-  fin.open("Input.txt");
-  for (int i = 0; i <= totalJobs; i++) {
-    std::getline(fin, filePuller);
-  }
-=======
   std::getline(fin, filePuller);
   std::stringstream parseLine(filePuller);
->>>>>>> 7f8202c2d52f3791607a417937f9e579d4059b95
 
   // parse file puller
 
