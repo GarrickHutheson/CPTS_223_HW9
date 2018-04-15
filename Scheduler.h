@@ -67,7 +67,7 @@ public:
   void releaseProcs(int procs);
 
   /**/
-  void getAJob();
+  bool getAJobFromTextFile();
   /**/
   void fillQueue();
   /**/

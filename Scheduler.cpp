@@ -24,7 +24,7 @@ Scheduler::Scheduler(int numJobs, int procs) {
 
 //runs jobs from file w/o user input
 void Scheduler::Run() {
-  while (!fin.eof() || !procaQueue.empty()){
+  while (!fin.eof() || !procaQueue.empty() || !running.empty()){  
     Tick();
     decrementTJobs();
   }
@@ -52,7 +52,7 @@ void Scheduler::Tick() {
  // waitForUserInput();
  if (!fin.eof())
  {
-  getAJob();
+  getAJobFromTextFile();
  }
   scheduleJob();
   deleteByTimer();
@@ -135,16 +135,28 @@ void Scheduler::releaseProcs(int procs) {
   assigns job an unused integer id
   calls InsertJob(job_id,job_description,n_procs,n_ticks)
 */
-void Scheduler::getAJob() {
+bool Scheduler::getAJobFromTextFile() {
   string desc;
   int procs = 0;    
-  int ticks = 0;   
+  int ticks = 0;
   char eatNewLine; 
   getline(fin, desc, ' ');
-  fin >> procs;
-  fin >> ticks;
-  fin.ignore(1000, '\n');
-  insertJob(totalJobs++, procs, ticks, desc);
+  for(int i = 0; i < desc.length(); i++)
+  {
+    desc[i] = tolower(desc[i]);
+  }
+
+  if(desc.compare("exit"))
+  {
+  std::cout<<"here" << std::endl;
+    fin >> procs;
+    fin >> ticks;
+    fin.ignore(1000, '\n');
+    insertJob(totalJobs++, procs, ticks, desc);
+    return true;
+  }
+  return false;
+  
 }
 
 
@@ -169,3 +181,4 @@ void Scheduler::deleteByTimer() {
 int Scheduler::getTJobs() { return totalJobsToDo; }
 
 void Scheduler::decrementTJobs() { totalJobsToDo--; }
+
