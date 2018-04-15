@@ -51,8 +51,7 @@ void Scheduler::waitForUserInput() {
 void Scheduler::Tick() {
  // waitForUserInput();
   fillQueue();
-  deleteByTimer();
-  std::cout << "ticking\n";
+  std::cout << deleteByTimer();
 }
 
 /*
@@ -183,7 +182,7 @@ string Scheduler::deleteByTimer() {
   */
   (syntactorator) ? ((syntactorator - 1) ? (done << " were deleted.")
                                          : (done << " was deleted."))
-                  : (done << "no jobs were deleted");
+                  : (done << "No jobs were deleted");
   done << std::endl; // idk if this will work
   return done.str();
 }
