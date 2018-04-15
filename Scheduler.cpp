@@ -8,7 +8,7 @@
 
 
 Scheduler::Scheduler() {
-  avaliableProcs = 8; // DEFAULTUNKNOWN
+  avaliableProcs = 13; // DEFAULTUNKNOWN
   allTheProcs =8;
   totalJobs = 0; // starts at the first line of a file
   totalJobsToDo = 10;
@@ -51,7 +51,7 @@ void Scheduler::waitForUserInput() {
 void Scheduler::Tick() {
  // waitForUserInput();
   getAJob();
-  runJob();
+  scheduleJob();
   std::cout << deleteByTimer();
 }
 
@@ -64,11 +64,10 @@ If  so,  it  inserts  the  job  into  a  “wait  queue”.  Otherwise,  a  job
 submission error is raised with an appropriate message.
 */
 void Scheduler::insertJob(int id, int procs, int ticks, string desc) {
-  if (((0 < procs) && (procs <= avaliableProcs)) && (ticks > 0)) {
+  if ((0 < procs) && (ticks > 0)) {
     procaQueue.push(Job(id, procs, ticks, desc));
-    avaliableProcs-=procs;
-    totalJobs++;
-   std::cout << "insert successfull "<<procs<<std::endl;
+   std::cout << "insert successfull: "<<procaQueue.top().getProcs()<<std::endl;
+
   } else {
     std::cout << "UNSUCCESSFULL PROBE";
   }
@@ -85,9 +84,8 @@ Job Scheduler::findShortest() { return procaQueue.top(); }
   calls std priority queue pop
 */
 Job Scheduler::deleteShortest() {
-  std::cout << "DELETING JOB" << std::endl;
+  std::cout << "DELETING JOB FROM PRIORITY QUEUE" << std::endl;
   Job deletedJob = Job(procaQueue.top());
-  avaliableProcs+= deletedJob.getProcs();
   procaQueue.pop();
   return deletedJob;
 }
@@ -100,18 +98,25 @@ bool Scheduler::checkAvailiability(int procs) {
 }
 
 /*
-  runJob
+  scheduleJob
   passes job to parallel computer( in theory)
   removes job from top of queue
 */
-void Scheduler::runJob() { running.push_back(deleteShortest()); }
+void Scheduler::scheduleJob() {
+  std::cout <<"Schedule FROM PRIORITY QUEUE" << std::endl;
+  if(checkAvailiability(procaQueue.top().getProcs()))
+  {
+    
+   running.push_back(deleteShortest()); 
+  }
+}
 
 /*
   releaseProcs
   adds procs back to pool checks to
 */
 void Scheduler::releaseProcs(int procs) {
-  if(avaliableProcs + procs <= allTheProcs){
+  if((avaliableProcs + procs) <= allTheProcs){
        (avaliableProcs += procs);
     } else {
    std::cout << "TOO MANY PROCESSORS!" << std::endl;
@@ -124,35 +129,18 @@ void Scheduler::releaseProcs(int procs) {
   calls InsertJob(job_id,job_description,n_procs,n_ticks)
 */
 void Scheduler::getAJob() {
-  // creates oldMan class that outputs "Get a JAOB" to terminal.
-    string desc;
-  int procs = 0;    // TODO
-  int ticks = 0;    // TODO
-  std::string filePuller = "";
-  std::getline(fin, filePuller);
-  std::stringstream parseLine(filePuller);
+  string desc;
+  int procs = 0;    
+  int ticks = 0;   
+  char eatNewLine; 
+  getline(fin, desc, ' ');
+  fin >> procs;
+  fin >> ticks;
 
-  // parse file puller
-
-  getline(parseLine, desc, ' ');
-  parseLine >> procs;
-  parseLine >> ticks;
-
-  // Assign a int id
-  int id = totalJobs; // works but maybe better?
-  totalJobs++;
-  if(checkAvailiability(procs)) {
-    insertJob(id, procs, ticks, desc);
-  }
+  insertJob(totalJobs++, procs, ticks, desc);
 }
 
-/*while there are enough free processors call runJob.
-  runJob pushes the job to be run to the back of the
-   running list and deletes it from the queue
-*/
-void Scheduler::fillQueue() {
-    getAJob();
-}
+
 
 /*prints the job_ids of any jobs compleated during the tick*/
 string Scheduler::deleteByTimer() {
@@ -160,9 +148,8 @@ string Scheduler::deleteByTimer() {
   int syntactorator = 0;
     for (std::list<Job>::iterator iter = running.begin(); (iter != running.end());iter++) {
       iter->decrementTimer();
-      if ((iter->getTimer())) {
-      std::cout <<"this too shall come to pass"<<std::endl;
-        
+      std::cout <<" "<< iter->getTimer()<<" ";
+      if ((iter->getTimer() == 0)) {
         done << iter->getDesc() << ", Processors: "<< iter->getProcs() << ", Ticks: " << iter->getTicks() <<"\n";
         releaseProcs(iter->getProcs());
        running.erase(iter);
@@ -175,9 +162,9 @@ string Scheduler::deleteByTimer() {
     if syntactorator = 1, adds " job was deleted." to stringstream
     if syntactorator > 1, adds " jobs were deleted." to stringstream
   */
-  done <<(syntactorator) ? ((syntactorator - 1) ? (" were deleted.")
-                                         : (" was deleted."))
-                  : ("No jobs were deleted");
+  done <<((syntactorator) ? ((syntactorator - 1) ? (" were deleted.\n")
+                                         : (" was deleted.\n"))
+                  : ("No jobs were deleted\n"));
   //done << std::endl; // idk if this will work
   return done.str();
 }

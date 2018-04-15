@@ -57,9 +57,9 @@ public:
   bool checkAvailiability(int procs);
 
   /*
-    runJob
+    schedule job
   */
-  void runJob();
+  void scheduleJob();
 
   /*
     releaseProcs
