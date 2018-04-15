@@ -24,21 +24,23 @@ Scheduler::Scheduler(int numJobs, int procs) {
 
 //runs jobs from file w/o user input
 void Scheduler::Run() {
-  while (getTjobs()) {
+  while (getTJobs()) {
     Tick();
     decrementTJobs();
   }
 }
 
-void waitForUserInput() {
+void Scheduler::waitForUserInput() {
   string jobdesk="";
   int numprocs=0;
   int numticks=0;
+  std::cout << "enter Job description " << std::endl;
   std::cin >> jobdesk;
+  std::cout << "enter required processors " << std::endl;
   std::cin >> numprocs;
   std::cin >> numticks;
   if(numprocs !=0)
-  int id = jobFileCounter;
+    int id = jobFileCounter;
 }
 
 /*
