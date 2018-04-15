@@ -10,6 +10,7 @@ Job::Job(int id, int procs, int ticks, string desc) {
   n_procs = procs;
   n_ticks = ticks;
   job_id = id;
+  jobRunningTimer=ticks;
 }
 
 /* sets number of ticks to a desired value */
@@ -21,7 +22,7 @@ int const Job::getTicks() { return n_ticks; }
 void Job::setTimer(int tiempo) { jobRunningTimer = tiempo; }
 
 /* decreases number of ticks a job requires */
-void Job::decrementTimer() { --jobRunningTimer; }
+void Job::decrementTimer() { if (jobRunningTimer > 0) --jobRunningTimer; }
 
 /* returns timer value */
 int const Job::getTimer() { return jobRunningTimer; }
