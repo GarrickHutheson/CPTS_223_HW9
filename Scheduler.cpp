@@ -24,10 +24,9 @@ Scheduler::Scheduler(int numJobs, int procs) {
 
 //runs jobs from file w/o user input
 void Scheduler::Run() {
-  while (!fin.eof() || !procaQueue.empty() || !running.empty()){  
+  do {  
     Tick();
-    decrementTJobs();
-  }
+  } while (!(procaQueue.top().getDesc()=="exit") || !running.empty());
 }
 
 void Scheduler::waitForUserInput() {
@@ -53,6 +52,8 @@ void Scheduler::Tick() {
  if (!fin.eof())
  {
   getAJobFromTextFile();
+ } else {
+   insertJob(-1,0,0,"exit");
  }
   scheduleJob();
   deleteByTimer();
@@ -67,7 +68,7 @@ If  so,  it  inserts  the  job  into  a  “wait  queue”.  Otherwise,  a  job
 submission error is raised with an appropriate message.
 */
 void Scheduler::insertJob(int id, int procs, int ticks, string desc) {
-  if ((0 < procs) && (ticks > 0)) {
+  if ((0 <= procs) && (0 <= ticks)) {
     Job toPriorityQueue = Job(id, procs, ticks, desc);
     procaQueue.push(toPriorityQueue);
    std::cout << toPriorityQueue << " inserted to priority Queue" << std::endl;
