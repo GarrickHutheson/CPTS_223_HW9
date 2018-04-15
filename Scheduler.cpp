@@ -13,6 +13,7 @@ Scheduler::Scheduler() {
   totalJobs = 0; // starts at the first line of a file
   totalJobsToDo = 100;
   fin.open("Input.txt");
+  exitScheduler = false;
 }
 Scheduler::Scheduler(int numJobs, int procs) {
   avaliableProcs = procs;
@@ -20,12 +21,18 @@ Scheduler::Scheduler(int numJobs, int procs) {
   totalJobs = 0;
   totalJobsToDo = numJobs;
   fin.open("Input.txt");
+  exitScheduler = false;
 }
 
 //runs jobs from file w/o user input
 void Scheduler::Run() {
   do {  
     Tick();
+      if(exitScheduler){
+      std::cout << "exiting" <<std::endl;
+      return;
+      }
+    decrementTJobs();
   } while (!(procaQueue.top().getDesc()=="exit") || !running.empty());
 }
 
@@ -51,12 +58,22 @@ void Scheduler::Tick() {
  // waitForUserInput();
  if (!fin.eof())
  {
+<<<<<<< HEAD
   getAJobFromTextFile();
  } else {
    insertJob(-1,0,0,"exit");
+=======
+  exitScheduler = getAJobFromTextFile();
+>>>>>>> 467d34de9d841ef5abe7ed585920b10abb6eb558
  }
+ if(!procaQueue.empty() || !exitScheduler)
+ {
   scheduleJob();
+ }
+ if(!running.empty() || !exitScheduler)
+ {
   deleteByTimer();
+ }
 }
 
 /*
@@ -140,23 +157,21 @@ bool Scheduler::getAJobFromTextFile() {
   string desc;
   int procs = 0;    
   int ticks = 0;
-  char eatNewLine; 
   getline(fin, desc, ' ');
   for(int i = 0; i < desc.length(); i++)
   {
     desc[i] = tolower(desc[i]);
   }
-
-  if(desc.compare("exit"))
+  if(desc.find("exit") == string::npos)
   {
-  std::cout<<"here" << std::endl;
+    std::cout<< "here" << std::endl;
     fin >> procs;
     fin >> ticks;
     fin.ignore(1000, '\n');
     insertJob(totalJobs++, procs, ticks, desc);
-    return true;
+    return false;
   }
-  return false;
+  return true;
   
 }
 
