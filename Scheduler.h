@@ -52,7 +52,7 @@ public:
   /*
     checkAvailiability
   */
-  bool checkAvailiability();
+  bool checkAvailiability(int procs);
 
   /*
     runJob
@@ -83,11 +83,10 @@ public:
 
 private:
   std::priority_queue<Job, std::vector<Job>, std::greater<Job> > procaQueue;
-  int theFinalCountdown; // timer
   int avaliableProcs;    // keeps track of free proccessors
   int allTheProcs;
-  int jobFileCounter;
+  int totalJobs; //keeps track of the total number of jobs for independent naming
   int totalJobsToDo;
   std::list<Job> running;
-};
+}; 
 #endif

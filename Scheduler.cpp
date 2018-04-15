@@ -13,12 +13,14 @@
 
 Scheduler::Scheduler() {
   avaliableProcs = 8; // DEFAULTUNKNOWN
-  jobFileCounter = 0; // starts at the first line of a file
+  allTheProcs =8;
+  totalJobs = 0; // starts at the first line of a file
   totalJobsToDo = 10;
 }
 Scheduler::Scheduler(int numJobs, int procs) {
   avaliableProcs = procs;
-  jobFileCounter = 0;
+  allTheProcs = procs;
+  totalJobs = 0;
   totalJobsToDo = numJobs;
 }
 
@@ -40,7 +42,7 @@ void Scheduler::waitForUserInput() {
   std::cin >> numprocs;
   std::cin >> numticks;
   if(numprocs !=0)
-    int id = jobFileCounter;
+    int id = totalJobs;
 }
 
 /*
@@ -65,6 +67,8 @@ submission error is raised with an appropriate message.
 void Scheduler::insertJob(int id, int procs, int ticks, string desc) {
   if (((0 < procs) && (procs <= allTheProcs)) && (ticks > 0)) {
     procaQueue.push(Job(id, procs, ticks, desc));
+    avaliableProcs-=procs;
+    totalJobs++;
     /*so it needs to take a
      job object but I don't think
      i'm sorting these things correctly.
@@ -84,6 +88,7 @@ Job Scheduler::findShortest() { return procaQueue.top(); }
 */
 Job Scheduler::deleteShortest() {
   Job deletedJob = Job(procaQueue.top());
+  avaliableProcs+= deletedJob.getProcs();
   procaQueue.pop();
   return deletedJob;
 }
@@ -91,10 +96,8 @@ Job Scheduler::deleteShortest() {
 /*
   checkAvailiability
 */
-bool Scheduler::checkAvailiability() {
-  if (avaliableProcs==allTheProcs)
-  return (avaliableProcs >= (findShortest().getProcs()));
-  return false;
+bool Scheduler::checkAvailiability(int procs) {
+  return (avaliableProcs >= procs);
 }
 
 /*
@@ -132,20 +135,22 @@ void Scheduler::getAJob() {
   std::string filePuller = "";
   std::ifstream fin;
   fin.open("Input.txt");
-  for (int i = 0; i <= jobFileCounter; i++) {
+  for (int i = 0; i <= totalJobs; i++) {
     std::getline(fin, filePuller);
   }
-  jobFileCounter++;
+  totalJobs++;
 
   // parse file puller
-  string desc = ""; // TODO
-  int procs = 0;    // TODO
-  int ticks = 0;    // TODO
+  string desc = "abba"; // TODO
+  int procs = 4;    // TODO
+  int ticks = 2;    // TODO
 
   // Assign a int id
-  int id = jobFileCounter; // works but maybe better?
-
-  insertJob(id, procs, ticks, desc);
+  int id = totalJobs; // works but maybe better?
+  if(checkAvailiability(procs)) {
+    std::cout << "HELO!" << std::endl;
+    insertJob(id, procs, ticks, desc);
+  }
 }
 
 /*while there are enough free processors call runJob.
@@ -153,11 +158,7 @@ void Scheduler::getAJob() {
    running list and deletes it from the queue
 */
 void Scheduler::fillQueue() {
-    std::cout << "HELO!" << std::endl;
-  while (checkAvailiability()) {
-    
     getAJob();
-  }
 }
 
 /*prints the job_ids of any jobs compleated during the tick*/
