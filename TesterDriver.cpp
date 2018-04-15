@@ -3,5 +3,5 @@
 #include "Scheduler.h"
 int main() {
   Scheduler s;
-  s.runJob();
+  s.Run();
 }
