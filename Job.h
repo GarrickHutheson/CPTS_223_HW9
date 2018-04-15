@@ -11,7 +11,7 @@ using std::string;
 
 class Job {
 public:
-  Job(int id, string desc, int procs, int ticks);
+  Job(int id, int procs, int ticks, string desc = "NULL");
 
   void setTicks(int ticks);
   int getTicks();
