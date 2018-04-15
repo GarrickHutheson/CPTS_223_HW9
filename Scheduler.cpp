@@ -8,10 +8,10 @@
 
 
 Scheduler::Scheduler() {
-  avaliableProcs = 8; // DEFAULTUNKNOWN
-  allTheProcs =8;
+  allTheProcs = 13;
+  avaliableProcs = allTheProcs;
   totalJobs = 0; // starts at the first line of a file
-  totalJobsToDo = 10;
+  totalJobsToDo = 100;
   fin.open("Input.txt");
 }
 Scheduler::Scheduler(int numJobs, int procs) {
@@ -24,7 +24,7 @@ Scheduler::Scheduler(int numJobs, int procs) {
 
 //runs jobs from file w/o user input
 void Scheduler::Run() {
-  while (getTJobs()) {
+  while (!fin.eof() || !procaQueue.empty()){
     Tick();
     decrementTJobs();
   }
@@ -50,9 +50,12 @@ void Scheduler::waitForUserInput() {
 */
 void Scheduler::Tick() {
  // waitForUserInput();
+ if (!fin.eof())
+ {
   getAJob();
+ }
   scheduleJob();
-  std::cout << deleteByTimer();
+  deleteByTimer();
 }
 
 /*
@@ -65,11 +68,12 @@ submission error is raised with an appropriate message.
 */
 void Scheduler::insertJob(int id, int procs, int ticks, string desc) {
   if ((0 < procs) && (ticks > 0)) {
-    procaQueue.push(Job(id, procs, ticks, desc));
-   std::cout << "insert successfull: "<<procaQueue.top().getProcs()<<std::endl;
+    Job toPriorityQueue = Job(id, procs, ticks, desc);
+    procaQueue.push(toPriorityQueue);
+   std::cout << toPriorityQueue << " inserted to priority Queue" << std::endl;
 
   } else {
-    std::cout << "UNSUCCESSFULL PROBE";
+    std::cout << "UNSUCCESSFULL PROBE\n";
   }
 }
 
@@ -84,7 +88,6 @@ Job Scheduler::findShortest() { return procaQueue.top(); }
   calls std priority queue pop
 */
 Job Scheduler::deleteShortest() {
-  std::cout << "DELETING JOB FROM PRIORITY QUEUE" << std::endl;
   Job deletedJob = Job(procaQueue.top());
   procaQueue.pop();
   return deletedJob;
@@ -103,12 +106,17 @@ bool Scheduler::checkAvailiability(int procs) {
   removes job from top of queue
 */
 void Scheduler::scheduleJob() {
-  std::cout <<"Schedule FROM PRIORITY QUEUE" << std::endl;
   int procs = procaQueue.top().getProcs();
   if(checkAvailiability(procs))
   {
-    avaliableProcs-=procs;
-   running.push_back(deleteShortest()); 
+    avaliableProcs-= procs;
+    Job toRunning = deleteShortest();
+    running.push_back(toRunning);
+
+    std::cout << toRunning <<
+    " added to running processes and removed from priority queue"
+    << std::endl;
+
   }
 }
 
@@ -117,11 +125,9 @@ void Scheduler::scheduleJob() {
   adds procs back to pool checks to
 */
 void Scheduler::releaseProcs(int procs) {
-  if((avaliableProcs + procs) <= allTheProcs){
+    {
        (avaliableProcs += procs);
-    } else {
-   std::cout << "TOO MANY PROCESSORS!" <<procs<<" "<<avaliableProcs<<" " <<allTheProcs<<std::endl;
-  }
+    }
 }
 
 /*
@@ -137,51 +143,28 @@ void Scheduler::getAJob() {
   getline(fin, desc, ' ');
   fin >> procs;
   fin >> ticks;
-
+  fin.ignore(1000, '\n');
   insertJob(totalJobs++, procs, ticks, desc);
 }
 
 
 
 /*prints the job_ids of any jobs compleated during the tick*/
-string Scheduler::deleteByTimer() {
+void Scheduler::deleteByTimer() {
   std::stringstream done;
   int syntactorator = 0;
-    for (std::list<Job>::iterator iter = running.begin(); (iter != running.end());iter++) {
-      iter->decrementTimer();
-      std::cout <<"this ever happens 1"<<std::endl;
-      std::cout <<" "<< iter->getTimer()<<" ";
-      std::cout <<"this ever happens 2"<<std::endl;      
+    for (std::list<Job>::iterator iter = running.begin(); iter != running.end();iter++) {
+      iter->decrementTimer();    
       if ((iter->getTimer() == 0)) {
-      std::cout <<"this ever happens 3"<<std::endl;
-        done << iter->getDesc() << ", Processors: "<< iter->getProcs() << ", Ticks: " << iter->getTicks() <<"\n";
-      std::cout <<"this ever happens 4"<<std::endl;
-        
+        std::list<Job>::iterator deleteIter = iter; //don't erase loop guard
+        std::cout << *iter <<" was deleted" <<std::endl;
         releaseProcs(iter->getProcs());
-      std::cout <<"this ever happens 5"<<std::endl;
-        
-        running.erase(iter);
-      std::cout <<"this ever happens 6"<<std::endl;
-        
-        syntactorator++;
+        iter--; //step off to be erased node
+        running.erase(deleteIter); //erase node
       }
     }
-  /*
-    if syntactorator = 0, adds " no jobs were deleted" to stringstream
-    if syntactorator = 1, adds " job was deleted." to stringstream
-    if syntactorator > 1, adds " jobs were deleted." to stringstream
-  */
-  done <<((syntactorator) ? ((syntactorator - 1) ? (" were deleted.\n")
-                                         : (" was deleted.\n"))
-                  : ("No jobs were deleted\n"));
-  //done << std::endl; // idk if this will work
-  return done.str();
 }
-//pho king important
-  bool operator > (const Job &lhs, const Job &rhs)
-  {
-    return lhs.getProcs() > rhs.getProcs();
-  }
+
 
 int Scheduler::getTJobs() { return totalJobsToDo; }
 
