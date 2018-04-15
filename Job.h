@@ -14,14 +14,14 @@ public:
   Job(int id, int procs, int ticks, string desc = "NULL");
 
   void setTicks(int ticks);
-  int getTicks();
+  int const getTicks();
 
   void setTimer(int tiempo);
   void decrementTimer();
-  int getTimer();
+  int const getTimer();
 
   void setProcs(int procs);
-  int getProcs();
+  int getProcs ()const ;
 
   void setId(int iname);
   int getID();
@@ -35,4 +35,9 @@ private:
   int n_ticks;
   int job_id;
 };
+
+
+
+
 #endif
+
