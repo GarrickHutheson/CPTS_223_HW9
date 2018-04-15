@@ -78,7 +78,7 @@ public:
   /**/
   string deleteByTimer();
 
-  int getTjobs();
+  int getTJobs();
   void decrementTJobs();
 
 private:

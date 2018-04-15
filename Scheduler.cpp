@@ -47,7 +47,7 @@ void waitForUserInput() {
   prints the job_id of any jobs compleated during the tick
 */
 void Scheduler::Tick() {
-
+  waitForUserInput();
   deleteByTimer();
 }
 
@@ -164,7 +164,6 @@ string Scheduler::deleteByTimer() {
     if (!(iter->getTimer())) {
       done << iter->getDesc() << ", Processors: "<< iter->getProcs() << ", Ticks: " << iter->getTicks() <<"\n";
       releaseProcs(iter->getProcs());
-
       running.erase(iter);
       syntactorator++;
     }
@@ -181,6 +180,6 @@ string Scheduler::deleteByTimer() {
   return done.str();
 }
 
-int Scheduler::getTjobs() { return totalJobsToDo; }
+int Scheduler::getTJobs() { return totalJobsToDo; }
 
 void Scheduler::decrementTJobs() { totalJobsToDo--; }
