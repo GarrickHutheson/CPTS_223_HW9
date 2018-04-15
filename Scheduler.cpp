@@ -9,7 +9,7 @@
 
 Scheduler::Scheduler() {
   avaliableProcs = 13; // DEFAULTUNKNOWN
-  allTheProcs =8;
+  allTheProcs =13;
   totalJobs = 0; // starts at the first line of a file
   totalJobsToDo = 10;
   fin.open("Input.txt");
