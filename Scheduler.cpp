@@ -34,7 +34,9 @@ void Scheduler::waitForUserInput() {
   string jobdesk="";
   int numprocs=0;
   int numticks=0;
+  std::cout << "enter Job description " << std::endl;
   std::cin >> jobdesk;
+  std::cout << "enter required processors " << std::endl;
   std::cin >> numprocs;
   std::cin >> numticks;
   if(numprocs !=0)
@@ -91,7 +93,9 @@ Job Scheduler::deleteShortest() {
   checkAvailiability
 */
 bool Scheduler::checkAvailiability() {
+  if (avaliableProcs==allTheProcs)
   return (avaliableProcs >= (findShortest().getProcs()));
+  return false;
 }
 
 /*
@@ -150,8 +154,10 @@ void Scheduler::getAJob() {
    running list and deletes it from the queue
 */
 void Scheduler::fillQueue() {
+    std::cout << "HELO!" << std::endl;
   while (checkAvailiability()) {
-    runJob();
+    
+    getAJob();
   }
 }
 
@@ -181,7 +187,7 @@ string Scheduler::deleteByTimer() {
   done << std::endl; // idk if this will work
   return done.str();
 }
-
+//pho king important
   bool operator > (const Job &lhs, const Job &rhs)
   {
     return lhs.getProcs() > rhs.getProcs();
