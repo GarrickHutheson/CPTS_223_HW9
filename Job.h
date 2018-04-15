@@ -35,9 +35,5 @@ private:
   int n_ticks;
   int job_id;
 };
-
-
-
-
 #endif
 

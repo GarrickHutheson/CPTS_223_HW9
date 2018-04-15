@@ -53,6 +53,7 @@ void Scheduler::waitForUserInput() {
 void Scheduler::Tick() {
  // waitForUserInput();
   fillQueue();
+  runJob();
   std::cout << deleteByTimer();
 }
 
@@ -65,14 +66,13 @@ If  so,  it  inserts  the  job  into  a  “wait  queue”.  Otherwise,  a  job
 submission error is raised with an appropriate message.
 */
 void Scheduler::insertJob(int id, int procs, int ticks, string desc) {
-  if (((0 < procs) && (procs <= allTheProcs)) && (ticks > 0)) {
+  if (((0 < procs) && (procs <= avaliableProcs)) && (ticks > 0)) {
     procaQueue.push(Job(id, procs, ticks, desc));
     avaliableProcs-=procs;
     totalJobs++;
-    /*so it needs to take a
-     job object but I don't think
-     i'm sorting these things correctly.
-     I think what it needs is to get passed (jobID,Job)but idk */
+   std::cout << "insert successfull "<<procs<<std::endl;
+  } else {
+    std::cout << "UNSUCCESSFULL PROBE";
   }
 }
 
@@ -87,6 +87,7 @@ Job Scheduler::findShortest() { return procaQueue.top(); }
   calls std priority queue pop
 */
 Job Scheduler::deleteShortest() {
+  std::cout << "DELETING JOB" << std::endl;
   Job deletedJob = Job(procaQueue.top());
   avaliableProcs+= deletedJob.getProcs();
   procaQueue.pop();
@@ -108,19 +109,13 @@ bool Scheduler::checkAvailiability(int procs) {
 void Scheduler::runJob() { running.push_back(deleteShortest()); }
 
 /*
-  decrementTimer
-*/
-void Scheduler::decrementTimer() { theFinalCountdown--; }
-
-/*
   releaseProcs
   adds procs back to pool checks to
 */
 void Scheduler::releaseProcs(int procs) {
-  if(avaliableProcs + procs <= avaliableProcs){
+  if(avaliableProcs + procs <= allTheProcs){
        (avaliableProcs += procs);
-    }
-  else{
+    } else {
    std::cout << "TOO MANY PROCESSORS!" << std::endl;
   }
 }
@@ -138,7 +133,6 @@ void Scheduler::getAJob() {
   for (int i = 0; i <= totalJobs; i++) {
     std::getline(fin, filePuller);
   }
-  totalJobs++;
 
   // parse file puller
   string desc = "abba"; // TODO
@@ -148,7 +142,6 @@ void Scheduler::getAJob() {
   // Assign a int id
   int id = totalJobs; // works but maybe better?
   if(checkAvailiability(procs)) {
-    std::cout << "HELO!" << std::endl;
     insertJob(id, procs, ticks, desc);
   }
 }
@@ -165,26 +158,27 @@ void Scheduler::fillQueue() {
 string Scheduler::deleteByTimer() {
   std::stringstream done;
   int syntactorator = 0;
-  for (std::list<Job>::iterator iter = running.begin(); (iter != running.end());
-       iter++) {
-
-    iter->decrementTimer();
-    if (!(iter->getTimer())) {
-      done << iter->getDesc() << ", Processors: "<< iter->getProcs() << ", Ticks: " << iter->getTicks() <<"\n";
-      releaseProcs(iter->getProcs());
-      running.erase(iter);
-      syntactorator++;
+  if(running.begin()==running.end()){
     }
+    for (std::list<Job>::iterator iter = running.begin(); (iter != running.end());iter++) {
+      iter->decrementTimer();
+      if ((iter->getTimer())) {
+        done << iter->getDesc() << ", Processors: "<< iter->getProcs() << ", Ticks: " << iter->getTicks() <<"\n";
+        releaseProcs(iter->getProcs());
+       running.erase(iter);
+        syntactorator++;
+      }
+      std::cout <<"this ever happens"<<std::endl;
   }
   /*
     if syntactorator = 0, adds " no jobs were deleted" to stringstream
     if syntactorator = 1, adds " job was deleted." to stringstream
     if syntactorator > 1, adds " jobs were deleted." to stringstream
   */
-  (syntactorator) ? ((syntactorator - 1) ? (done << " were deleted.")
-                                         : (done << " was deleted."))
-                  : (done << "No jobs were deleted");
-  done << std::endl; // idk if this will work
+  done <<(syntactorator) ? ((syntactorator - 1) ? (" were deleted.")
+                                         : (" was deleted."))
+                  : ("No jobs were deleted");
+  //done << std::endl; // idk if this will work
   return done.str();
 }
 //pho king important
