@@ -186,7 +186,7 @@ void Scheduler::deleteByTimer() {
 }
 
 string Scheduler::extraSyntax(int syntactor) {
-  return ((syntactor) ? ((syntactor - 1) ? ("were deleted.\n")
-                                                  : ("was deleted.\n"))
-                          : ("No jobs were deleted\n"));
+  return ((syntactor) ? ((syntactor - 1) ? ("were finished.\n")
+                                                  : ("was finished.\n"))
+                          : ("No jobs were finished\n"));
 }
