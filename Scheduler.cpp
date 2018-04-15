@@ -49,8 +49,10 @@ void Scheduler::waitForUserInput() {
   prints the job_id of any jobs compleated during the tick
 */
 void Scheduler::Tick() {
-  waitForUserInput();
+ // waitForUserInput();
+  fillQueue();
   deleteByTimer();
+  std::cout << "ticking\n";
 }
 
 /*
@@ -82,9 +84,9 @@ Job Scheduler::findShortest() { return procaQueue.top(); }
   calls std priority queue pop
 */
 Job Scheduler::deleteShortest() {
-  std::list<Job>::iterator iter = procaQueue.top();
+  Job deletedJob = Job(procaQueue.top());
   procaQueue.pop();
-  return *iter;
+  return deletedJob;
 }
 
 /*
@@ -181,6 +183,11 @@ string Scheduler::deleteByTimer() {
   done << std::endl; // idk if this will work
   return done.str();
 }
+
+  bool operator > (const Job &lhs, const Job &rhs)
+  {
+    return lhs.getProcs() > rhs.getProcs();
+  }
 
 int Scheduler::getTJobs() { return totalJobsToDo; }
 
