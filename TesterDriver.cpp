@@ -1,10 +1,7 @@
 #include <istream>
 #include <iostream>
-
+#include "Scheduler.h"
 int main() {
-  /*
-    inserts one line from file per tick
-  */
-  while (true) {
-  }
+  Scheduler s;
+  s.runJob();
 }
