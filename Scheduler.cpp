@@ -15,11 +15,13 @@ Scheduler::Scheduler() {
   avaliableProcs = 8; // DEFAULTUNKNOWN
   jobFileCounter = 0; // starts at the first line of a file
   totalJobsToDo = 10;
+  fin.open("Input.txt");
 }
 Scheduler::Scheduler(int numJobs, int procs) {
   avaliableProcs = procs;
   jobFileCounter = 0;
   totalJobsToDo = numJobs;
+  fin.open("Input.txt");
 }
 
 //runs jobs from file w/o user input
@@ -130,11 +132,7 @@ void Scheduler::releaseProcs(int procs) {
 void Scheduler::getAJob() {
   // creates oldMan class that outputs "Get a JAOB" to terminal.
   std::string filePuller = "";
-  std::ifstream fin;
-  fin.open("Input.txt");
-  for (int i = 0; i <= jobFileCounter; i++) {
-    std::getline(fin, filePuller);
-  }
+  std::getline(fin, filePuller);
   jobFileCounter++;
 
   // parse file puller

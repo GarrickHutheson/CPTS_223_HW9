@@ -89,5 +89,6 @@ private:
   int jobFileCounter;
   int totalJobsToDo;
   std::list<Job> running;
+  std::ifstream fin;
 };
 #endif
