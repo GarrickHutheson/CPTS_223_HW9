@@ -182,7 +182,7 @@ void Scheduler::deleteByTimer() {
         syntactorator++;
       }
     }
-    extraSyntax(syntactorator);
+    std::cout << extraSyntax(syntactorator);
 }
 
 string Scheduler::extraSyntax(int syntactor) {
