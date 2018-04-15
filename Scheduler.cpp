@@ -4,24 +4,22 @@
  */
 
 #include "Scheduler.h"
-#include <fstream>
-#include <iostream>
-#include <istream>
-#include <list>
-#include <sstream>
-#include <string>
+
+
 
 Scheduler::Scheduler() {
   avaliableProcs = 8; // DEFAULTUNKNOWN
   allTheProcs =8;
   totalJobs = 0; // starts at the first line of a file
   totalJobsToDo = 10;
+  fin.open("Input.txt");
 }
 Scheduler::Scheduler(int numJobs, int procs) {
   avaliableProcs = procs;
   allTheProcs = procs;
   totalJobs = 0;
   totalJobsToDo = numJobs;
+  fin.open("Input.txt");
 }
 
 //runs jobs from file w/o user input
@@ -108,6 +106,10 @@ bool Scheduler::checkAvailiability(int procs) {
 */
 void Scheduler::runJob() { running.push_back(deleteShortest()); }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7f8202c2d52f3791607a417937f9e579d4059b95
 /*
   releaseProcs
   adds procs back to pool checks to
@@ -127,20 +129,30 @@ void Scheduler::releaseProcs(int procs) {
 */
 void Scheduler::getAJob() {
   // creates oldMan class that outputs "Get a JAOB" to terminal.
+    string desc;
+  int procs = 0;    // TODO
+  int ticks = 0;    // TODO
   std::string filePuller = "";
+<<<<<<< HEAD
   std::ifstream fin;
   fin.open("Input.txt");
   for (int i = 0; i <= totalJobs; i++) {
     std::getline(fin, filePuller);
   }
+=======
+  std::getline(fin, filePuller);
+  std::stringstream parseLine(filePuller);
+>>>>>>> 7f8202c2d52f3791607a417937f9e579d4059b95
 
   // parse file puller
-  string desc = "abba"; // TODO
-  int procs = 4;    // TODO
-  int ticks = 2;    // TODO
+
+  getline(parseLine, desc, ' ');
+  parseLine >> procs;
+  parseLine >> ticks;
 
   // Assign a int id
   int id = totalJobs; // works but maybe better?
+  totalJobs++;
   if(checkAvailiability(procs)) {
     insertJob(id, procs, ticks, desc);
   }
