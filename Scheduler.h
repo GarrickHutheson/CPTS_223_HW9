@@ -73,7 +73,7 @@ public:
   /**/
   void decrementEggTimers();
   /**/
-  string deleteByTimer();
+  void deleteByTimer();
 
   int getTJobs();
   void decrementTJobs();
