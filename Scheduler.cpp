@@ -8,7 +8,7 @@
 
 
 Scheduler::Scheduler() {
-  avaliableProcs = 13; // DEFAULTUNKNOWN
+  avaliableProcs = 8; // DEFAULTUNKNOWN
   allTheProcs =8;
   totalJobs = 0; // starts at the first line of a file
   totalJobsToDo = 10;
@@ -104,9 +104,10 @@ bool Scheduler::checkAvailiability(int procs) {
 */
 void Scheduler::scheduleJob() {
   std::cout <<"Schedule FROM PRIORITY QUEUE" << std::endl;
-  if(checkAvailiability(procaQueue.top().getProcs()))
+  int procs = procaQueue.top().getProcs();
+  if(checkAvailiability(procs))
   {
-    
+    avaliableProcs-=procs;
    running.push_back(deleteShortest()); 
   }
 }
@@ -119,7 +120,7 @@ void Scheduler::releaseProcs(int procs) {
   if((avaliableProcs + procs) <= allTheProcs){
        (avaliableProcs += procs);
     } else {
-   std::cout << "TOO MANY PROCESSORS!" << std::endl;
+   std::cout << "TOO MANY PROCESSORS!" <<procs<<" "<<avaliableProcs<<" " <<allTheProcs<<std::endl;
   }
 }
 
@@ -148,14 +149,22 @@ string Scheduler::deleteByTimer() {
   int syntactorator = 0;
     for (std::list<Job>::iterator iter = running.begin(); (iter != running.end());iter++) {
       iter->decrementTimer();
+      std::cout <<"this ever happens 1"<<std::endl;
       std::cout <<" "<< iter->getTimer()<<" ";
+      std::cout <<"this ever happens 2"<<std::endl;      
       if ((iter->getTimer() == 0)) {
+      std::cout <<"this ever happens 3"<<std::endl;
         done << iter->getDesc() << ", Processors: "<< iter->getProcs() << ", Ticks: " << iter->getTicks() <<"\n";
+      std::cout <<"this ever happens 4"<<std::endl;
+        
         releaseProcs(iter->getProcs());
-       running.erase(iter);
+      std::cout <<"this ever happens 5"<<std::endl;
+        
+        running.erase(iter);
+      std::cout <<"this ever happens 6"<<std::endl;
+        
         syntactorator++;
       }
-      std::cout <<"this ever happens"<<std::endl;
     }
   /*
     if syntactorator = 0, adds " no jobs were deleted" to stringstream
