@@ -7,6 +7,7 @@
 #define __JOB_H__
 
 #include <string>
+#include <ostream>
 using std::string;
 
 class Job {
@@ -14,19 +15,19 @@ public:
   Job(int id, int procs, int ticks, string desc = "NULL");
 
   void setTicks(int ticks);
-  int const getTicks();
+  int getTicks() const;
 
   void setTimer(int tiempo);
   void decrementTimer();
-  int const getTimer();
+  int getTimer() const;
 
   void setProcs(int procs);
-  int getProcs ()const ;
+  int getProcs() const;
 
   void setId(int iname);
-  int getID();
+  int getID() const;
 
-  string getDesc();
+  string getDesc() const;
 
 private:
   string job_description;
@@ -35,5 +36,8 @@ private:
   int n_ticks;
   int job_id;
 };
+
+  bool operator > (const Job &lhs, const Job &rhs);
+  std::ostream & operator <<(std::ostream &out, const Job &j);
 #endif
 
