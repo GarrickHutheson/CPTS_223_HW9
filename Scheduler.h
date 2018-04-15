@@ -86,5 +86,6 @@ private:
   int totalJobsToDo;
   std::list<Job> running;
   std::ifstream fin;
+  bool exitScheduler;
 };
 #endif
