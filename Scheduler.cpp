@@ -4,22 +4,20 @@
  */
 
 #include "Scheduler.h"
-#include <fstream>
-#include <iostream>
-#include <istream>
-#include <list>
-#include <sstream>
-#include <string>
+
+
 
 Scheduler::Scheduler() {
   avaliableProcs = 8; // DEFAULTUNKNOWN
-  jobFileCounter = 0; // starts at the first line of a file
+  allTheProcs =8;
+  totalJobs = 0; // starts at the first line of a file
   totalJobsToDo = 10;
   fin.open("Input.txt");
 }
 Scheduler::Scheduler(int numJobs, int procs) {
   avaliableProcs = procs;
-  jobFileCounter = 0;
+  allTheProcs = procs;
+  totalJobs = 0;
   totalJobsToDo = numJobs;
   fin.open("Input.txt");
 }
@@ -42,7 +40,7 @@ void Scheduler::waitForUserInput() {
   std::cin >> numprocs;
   std::cin >> numticks;
   if(numprocs !=0)
-    int id = jobFileCounter;
+    int id = totalJobs;
 }
 
 /*
@@ -67,6 +65,8 @@ submission error is raised with an appropriate message.
 void Scheduler::insertJob(int id, int procs, int ticks, string desc) {
   if (((0 < procs) && (procs <= allTheProcs)) && (ticks > 0)) {
     procaQueue.push(Job(id, procs, ticks, desc));
+    avaliableProcs-=procs;
+    totalJobs++;
     /*so it needs to take a
      job object but I don't think
      i'm sorting these things correctly.
@@ -86,6 +86,7 @@ Job Scheduler::findShortest() { return procaQueue.top(); }
 */
 Job Scheduler::deleteShortest() {
   Job deletedJob = Job(procaQueue.top());
+  avaliableProcs+= deletedJob.getProcs();
   procaQueue.pop();
   return deletedJob;
 }
@@ -93,10 +94,8 @@ Job Scheduler::deleteShortest() {
 /*
   checkAvailiability
 */
-bool Scheduler::checkAvailiability() {
-  if (avaliableProcs==allTheProcs)
-  return (avaliableProcs >= (findShortest().getProcs()));
-  return false;
+bool Scheduler::checkAvailiability(int procs) {
+  return (avaliableProcs >= procs);
 }
 
 /*
@@ -106,10 +105,6 @@ bool Scheduler::checkAvailiability() {
 */
 void Scheduler::runJob() { running.push_back(deleteShortest()); }
 
-/*
-  decrementTimer
-*/
-void Scheduler::decrementTimer() { theFinalCountdown--; }
 
 /*
   releaseProcs
@@ -131,19 +126,25 @@ void Scheduler::releaseProcs(int procs) {
 */
 void Scheduler::getAJob() {
   // creates oldMan class that outputs "Get a JAOB" to terminal.
-  std::string filePuller = "";
-  std::getline(fin, filePuller);
-  jobFileCounter++;
-
-  // parse file puller
-  string desc = ""; // TODO
+    string desc;
   int procs = 0;    // TODO
   int ticks = 0;    // TODO
+  std::string filePuller = "";
+  std::getline(fin, filePuller);
+  std::stringstream parseLine(filePuller);
+
+  // parse file puller
+
+  getline(parseLine, desc, ' ');
+  parseLine >> procs;
+  parseLine >> ticks;
 
   // Assign a int id
-  int id = jobFileCounter; // works but maybe better?
-
-  insertJob(id, procs, ticks, desc);
+  int id = totalJobs; // works but maybe better?
+  totalJobs++;
+  if(checkAvailiability(procs)) {
+    insertJob(id, procs, ticks, desc);
+  }
 }
 
 /*while there are enough free processors call runJob.
@@ -151,11 +152,7 @@ void Scheduler::getAJob() {
    running list and deletes it from the queue
 */
 void Scheduler::fillQueue() {
-    std::cout << "HELO!" << std::endl;
-  while (checkAvailiability()) {
-    
     getAJob();
-  }
 }
 
 /*prints the job_ids of any jobs compleated during the tick*/

@@ -9,6 +9,8 @@
 #include "Job.h"
 #include <functional>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <list>
 #include <queue>
 #include <string>
@@ -52,17 +54,12 @@ public:
   /*
     checkAvailiability
   */
-  bool checkAvailiability();
+  bool checkAvailiability(int procs);
 
   /*
     runJob
   */
   void runJob();
-
-  /*
-    decrementTimer
-  */
-  void decrementTimer();
 
   /*
     releaseProcs
@@ -83,10 +80,9 @@ public:
 
 private:
   std::priority_queue<Job, std::vector<Job>, std::greater<Job> > procaQueue;
-  int theFinalCountdown; // timer
   int avaliableProcs;    // keeps track of free proccessors
   int allTheProcs;
-  int jobFileCounter;
+  int totalJobs; //keeps track of the total number of jobs for independent naming
   int totalJobsToDo;
   std::list<Job> running;
   std::ifstream fin;
