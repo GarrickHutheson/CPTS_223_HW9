@@ -58,7 +58,7 @@ void Scheduler::Tick() {
  {
   exitScheduler = getAJobFromTextFile();
  } else {
-   insertJob(-1,0,0,"exit");
+   insertJob(-1,allTheProcs,0,"exit");
  }
  if(!procaQueue.empty() || !exitScheduler)
  {
