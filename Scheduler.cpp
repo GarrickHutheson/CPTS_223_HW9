@@ -35,6 +35,7 @@ void Scheduler::Run() {
   } while (!(procaQueue.top().getDesc() == "exit") || !running.empty());
 }
 
+/**/
 void Scheduler::waitForUserInput() {
   string jobdesk="";
   int numprocs=0;
