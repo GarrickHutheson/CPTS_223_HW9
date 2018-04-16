@@ -2,9 +2,12 @@
 #include <iostream>
 #include "Scheduler.h"
 int main() {
-  int mode=0;
-  std::cout<<"File(0) or Input(1)" << std::endl;
+  int mode = 0;
+  int procs = 8;
+  std::cout<<"Enter \"0\" for File Input or \"1\" for Keybord Input" << std::endl;
   std::cin >> mode;
-  Scheduler s;
+  std::cout<<"Enter number of processors in your cluster" << std::endl;
+  std::cin >> procs;
+  Scheduler s(mode,procs);
   s.Run();
 }

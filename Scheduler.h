@@ -19,7 +19,7 @@ using std::string;
 class Scheduler {
 public:
   Scheduler();
-  Scheduler(int numJobs, int procs = 8);
+  Scheduler(int mode, int procs = 8);
 
   void Run();
 
@@ -72,17 +72,21 @@ public:
   void fillQueue();
   /**/
   void decrementEggTimers();
-  /**/
+
+  /*prints the job_ids of any jobs compleated during the tick*/
   void deleteByTimer();
+
+  /*function that controlls syntax for job deletion output*/
   string extraSyntax(int syntactor);
 
 private:
   std::priority_queue<Job, std::vector<Job>, std::greater<Job> > procaQueue;
   int avaliableProcs;    // keeps track of free proccessors
-  int allTheProcs;
+  int allTheProcs;  //keeps track of total "processors" in the cluster
   int totalJobs; //keeps track of the total number of jobs for independent naming
-  std::list<Job> running;
+  std::list<Job> running; //linked list to track jobs running in the "computer"
   std::ifstream fin;
-  bool exitScheduler;
+  bool exitScheduler; //set to true if exit condition met
+  int inputMode; //0 for reading from file anything else for user input
 };
 #endif
