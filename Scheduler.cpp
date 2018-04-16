@@ -13,37 +13,46 @@ Scheduler::Scheduler() {
   totalJobs = 0; // starts at the first line of a file
   fin.open("Input.txt");
   exitScheduler = false;
+  inputMode=0;
 }
-Scheduler::Scheduler(int numJobs, int procs) {
+Scheduler::Scheduler(int mode, int procs) {
   avaliableProcs = procs;
   allTheProcs = procs;
   totalJobs = 0;
   fin.open("Input.txt");
   exitScheduler = false;
+  inputMode=mode;
 }
 
 //runs jobs from file w/o user input
 void Scheduler::Run() {
   do {  
     Tick();
-      if(exitScheduler){
+    if(exitScheduler){
       std::cout << "exiting" <<std::endl;
       return;
-      }
-  } while (!(procaQueue.top().getDesc()=="exit") || !running.empty());
+    }
+  } while (!(procaQueue.top().getDesc() == "exit") || !running.empty());
 }
 
 void Scheduler::waitForUserInput() {
   string jobdesk="";
   int numprocs=0;
   int numticks=0;
-  std::cout << "enter Job description " << std::endl;
+  std::cout << "Enter your job description " << std::endl;
   std::cin >> jobdesk;
-  std::cout << "enter required processors " << std::endl;
-  std::cin >> numprocs;
-  std::cin >> numticks;
-  if(numprocs !=0)
-    int id = totalJobs;
+  if(!jobdesk.compare("exit")){
+      exitScheduler = true;
+  } else {
+    std::cout << "Enter required number of processors " << std::endl;
+    std::cin >> numprocs;
+    std::cout << "Enter required number of ticks " << std::endl;  
+    std::cin >> numticks;
+    if(numprocs !=0){
+      int id = totalJobs;
+      insertJob(totalJobs,numprocs,numticks,jobdesk);
+    }
+  }
 }
 
 /*
@@ -52,14 +61,16 @@ void Scheduler::waitForUserInput() {
   prints the job_id of any jobs compleated during the tick
 */
 void Scheduler::Tick() {
- // waitForUserInput();
- std::cout<<"\nTICK\n";
- if (!fin.eof())
- {
-  exitScheduler = getAJobFromTextFile();
- } else {
-   insertJob(-1,allTheProcs,0,"exit");
- }
+  std::cout<<"\nTICK\n";
+  if(inputMode==0){
+    if (!fin.eof()) {
+      exitScheduler = getAJobFromTextFile();
+    } else {
+      insertJob(-1,allTheProcs,0,"exit");
+    }
+  }else{
+    waitForUserInput();
+  }
  if(!procaQueue.empty() || !exitScheduler)
  {
   scheduleJob();
