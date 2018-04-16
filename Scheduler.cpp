@@ -39,7 +39,7 @@ void Scheduler::waitForUserInput() {
   string jobdesk="";
   int numprocs=0;
   int numticks=0;
-  std::cout << "Enter your job description " << std::endl;
+  std::cout << "Enter your job description or type exit to exit: " << std::endl;
   std::cin >> jobdesk;
   if(!jobdesk.compare("exit")){
       exitScheduler = true;
