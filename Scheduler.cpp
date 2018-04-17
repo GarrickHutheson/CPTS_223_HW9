@@ -74,7 +74,7 @@ void Scheduler::Tick() {
   }
  if(!procaQueue.empty() || !exitScheduler)
  {
-  scheduleJob();
+  runJob();
  }
  if(!running.empty() || !exitScheduler)
  {
@@ -124,11 +124,11 @@ bool Scheduler::checkAvailiability(int procs) {
 }
 
 /*
-  scheduleJob
+  runJob
   passes job to parallel computer( in theory)
   removes job from top of queue
 */
-void Scheduler::scheduleJob() {
+void Scheduler::runJob() {
   int procs = procaQueue.top().getProcs();
   if(checkAvailiability(procs)&&(procaQueue.top().getID()!=-1))
   {
@@ -194,10 +194,10 @@ void Scheduler::deleteByTimer() {
         syntactorator++;
       }
     }
-    std::cout << extraSyntax(syntactorator);
+    std::cout << syntaxToTheMax(syntactorator);
 }
 
-string Scheduler::extraSyntax(int syntactor) {
+string Scheduler::syntaxToTheMax(int syntactor) {
   return ((syntactor) ? ((syntactor - 1) ? ("were deleted.\n")
                                                   : ("was deleted.\n"))
                           : ("No jobs were deleted\n"));

@@ -57,9 +57,9 @@ public:
   bool checkAvailiability(int procs);
 
   /*
-    schedule job
+    run job
   */
-  void scheduleJob();
+  void runJob();
 
   /*
     releaseProcs
@@ -77,7 +77,7 @@ public:
   void deleteByTimer();
 
   /*function that controlls syntax for job deletion output*/
-  string extraSyntax(int syntactor);
+  string syntaxToTheMax(int syntactor);
 
 private:
   std::priority_queue<Job, std::vector<Job>, std::greater<Job> > procaQueue;
