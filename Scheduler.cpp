@@ -78,7 +78,7 @@ void Scheduler::Tick() {
  }
  if(!running.empty() || !exitScheduler)
  {
-  deleteByTimer();
+  decrementTimer();
  }
 }
 
@@ -181,7 +181,7 @@ bool Scheduler::getAJobFromTextFile() {
 
 
 /*prints the job_ids of any jobs compleated during the tick*/
-void Scheduler::deleteByTimer() {
+void Scheduler::decrementTimer() {
   int syntactorator = 0;
     for (std::list<Job>::iterator iter = running.begin(); iter != running.end();iter++) {
       iter->decrementTimer();    

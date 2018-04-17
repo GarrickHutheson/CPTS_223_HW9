@@ -70,11 +70,9 @@ public:
   bool getAJobFromTextFile();
   /**/
   void fillQueue();
-  /**/
-  void decrementEggTimers();
 
   /*prints the job_ids of any jobs compleated during the tick*/
-  void deleteByTimer();
+  void decrementTimer();
 
   /*function that controlls syntax for job deletion output*/
   string syntaxToTheMax(int syntactor);
