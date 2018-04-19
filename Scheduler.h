@@ -57,9 +57,9 @@ public:
   bool checkAvailiability(int procs);
 
   /*
-    schedule job
+    run job
   */
-  void scheduleJob();
+  void runJob();
 
   /*
     releaseProcs
@@ -70,14 +70,12 @@ public:
   bool getAJobFromTextFile();
   /**/
   void fillQueue();
-  /**/
-  void decrementEggTimers();
 
   /*prints the job_ids of any jobs compleated during the tick*/
-  void deleteByTimer();
+  void decrementTimer();
 
   /*function that controlls syntax for job deletion output*/
-  string extraSyntax(int syntactor);
+  string syntaxToTheMax(int syntactor);
 
 private:
   std::priority_queue<Job, std::vector<Job>, std::greater<Job> > procaQueue;
