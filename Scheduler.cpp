@@ -127,6 +127,7 @@ bool Scheduler::checkAvailiability(int procs) {
   runJob
   passes job to parallel computer( in theory)
   removes job from top of queue
+  limited by deleteShortest everything else has constant time
 */
 void Scheduler::runJob() {
   int procs = procaQueue.top().getProcs();
@@ -180,7 +181,11 @@ bool Scheduler::getAJobFromTextFile() {
 
 
 
-/*prints the job_ids of any jobs compleated during the tick*/
+/*prints the job_ids of any jobs compleated during the tick
+  on it's own this process takes O(n) but withing the context of the overall
+   program it has O(#processors) because that is the limit of independent
+    running prosseses
+*/
 void Scheduler::decrementTimer() {
   int syntactorator = 0;
     for (std::list<Job>::iterator iter = running.begin(); iter != running.end();iter++) {
