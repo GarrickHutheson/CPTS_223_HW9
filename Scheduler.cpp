@@ -70,18 +70,16 @@ void Scheduler::Tick() {
   } else {
     waitForUserInput();
   }
- if(!procaQueue.empty() || !exitScheduler)
- {
-  runJob();
- }
- if(!running.empty() || !exitScheduler)
- {
-  decrementTimer();
- }
-}
-
+  if(!procaQueue.empty() || !exitScheduler)
+  {
+    runJob();
+  }
+  if(!running.empty() || !exitScheduler)
+  {
+    decrementTimer();
+  }
   if (!procaQueue.empty() || !exitScheduler) {
-    scheduleJob();
+    runJob();
   }
 }
 /*
